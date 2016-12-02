@@ -15,9 +15,6 @@ part_2_keypad = '''
 .......'''.lstrip()
 
 
-def keypad_1d(keypad):
-    return ''.join(keypad.splitlines())
-
 
 def keypad_bounds(keypad):
     lines = keypad.splitlines()
@@ -26,7 +23,7 @@ def keypad_bounds(keypad):
 
 def lookup_key(keypad, (x, y)):
     bounds_x, bounds_y = keypad_bounds(keypad)
-    keypad = keypad_1d(keypad)
+    keypad = ''.join(keypad.splitlines())
     return keypad[x + y * bounds_x]
 
 
