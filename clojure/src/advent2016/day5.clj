@@ -41,20 +41,10 @@
                     (keep complex-result)
                     (reduce
                      (fn [result [n c]]
-                       (println result n c)
                        (cond
-                         (not-any? #(= \x %) result)
-                         (do
-                           (println "done")
-                           (reduced result))
-                         (= (nth result n) \x)
-                         (do
-                           (println "new one!")
-                           (assoc result n c))
-                         :else
-                         (do
-                           (println "old one!")
-                           result)))
+                         (not-any? #(= \x %) result) (reduced result)
+                         (= (nth result n) \x)       (assoc result n c)
+                         :else                       result))
                      (vec (repeat 8 \x)))
                     (take 8)
                     s/join))
