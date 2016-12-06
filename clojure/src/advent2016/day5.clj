@@ -1,51 +1,34 @@
 (ns advent2016.day5
-  (:require [digest :as digest]
-            [clojure.string :as s]))
+  (:import [java.security MessageDigest])
+  (:require [clojure.string :as s]))
 
 (def example1 "abc")
 (def puzzle "ffykfhsq")
 
+(defn md5 [s]
+  (let [digest (.digest (MessageDigest/getInstance "MD5") (.getBytes s))]
+    (apply format (clojure.string/join (repeat (count digest) "%02x")) digest)))
 
-(defn valid? [[key n]]
-  (let [md5 (->> (format "%s%s" key n)
-                 digest/md5)]
-    (when (s/starts-with? md5 "00000")
-      md5)))
+(def solution-results (->> (map (comp md5 str) (repeat puzzle) (range))
+                           (filter #(s/starts-with? % "00000"))))
 
-(def solution-results (->> (map vector (repeat puzzle) (range))
-                           (keep valid?)
-                           #_(take 16)))
-
-(def simple-result #(str (nth % 5)))
 (def solution1 (->> solution-results
-                    (map simple-result)
+                    (map #(subs % 5 6))
                     (take 8)
                     s/join))
 
-(defn parse-position [c]
-  (case c
-    \0 0
-    \1 1
-    \2 2
-    \3 3
-    \4 4
-    \5 5
-    \6 6
-    \7 7
-    nil))
-
 (defn complex-result [s]
-  (if-let [n (parse-position (nth s 5))]
-    [n (nth s 6)]))
+  (let [n (Integer/parseInt (subs s 5 6) 16)]
+    (when (< n 8)
+      [n (nth s 6)])))
 (def solution2 (->> solution-results
                     (keep complex-result)
                     (reduce
                      (fn [result [n c]]
                        (cond
-                         (not-any? #(= \x %) result) (reduced result)
-                         (= (nth result n) \x)       (assoc result n c)
-                         :else                       result))
-                     (vec (repeat 8 \x)))
-                    (take 8)
+                         (not-any? nil? result) (reduced result)
+                         (nil? (nth result n))  (assoc result n c)
+                         :else                  result))
+                     (vec (repeat 8 nil)))
                     s/join))
 
