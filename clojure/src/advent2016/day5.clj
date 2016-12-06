@@ -3,7 +3,7 @@
   (:require [clojure.string :as s]))
 
 (def example1 "abc")
-(def puzzle "ffykfhsq")
+(def puzzle (slurp "../day5.data"))
 
 (defn md5 [s]
   (let [digest (.digest (MessageDigest/getInstance "MD5") (.getBytes s))]
