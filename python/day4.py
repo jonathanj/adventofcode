@@ -1,16 +1,10 @@
 import string
 import sys
+from util import frequencies
 
 alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
 example1 = 'aaaaa-bbb-z-y-x-123[abxyz]'
-
-
-def frequencies(xs):
-    freq = {}
-    for x in xs:
-        freq[x] = freq.setdefault(x, 0) + 1
-    return freq
 
 
 def combine_freqs(freqs):
