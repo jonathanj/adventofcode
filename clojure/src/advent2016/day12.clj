@@ -8,8 +8,7 @@
                "dec a"])
 (def puzzle (vec (line-seq (clojure.java.io/reader "../day12.data"))))
 
-(defn register-name? [s]
-  (not (every? #(Character/isDigit %) s)))
+(def register-name? (complement (partial re-find #"[0-9]+")))
 
 (defn parse-instruction [s]
   (let [[ins & params] (clojure.string/split s #" ")]
