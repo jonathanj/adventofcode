@@ -10,7 +10,7 @@
 
 (def register-name? (complement (partial re-find #"[0-9]+")))
 
-(defn parse-instruction [s]
+(defn compile-instruction [s]
   (let [[ins & params] (clojure.string/split s #" ")]
     (condp = ins
       "cpy" (let [[s d] params
@@ -45,9 +45,9 @@
       state)))
 
 (def solution1 (->> puzzle
-                    (mapv parse-instruction)
+                    (mapv compile-instruction)
                     (execute-all [0 {:a 0 :b 0 :c 0 :d 0}])))
 
 (def solution2 (->> puzzle
-                    (mapv parse-instruction)
+                    (mapv compile-instruction)
                     (execute-all [0 {:a 0 :b 0 :c 1 :d 0}])))
