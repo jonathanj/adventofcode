@@ -5,28 +5,22 @@
 (def puzzle "cuanljph")
 
 (def triple (comp second (partial re-find #"([0-9a-f])\1{2}")))
-(defn quintuple? [^String digit ^String hash]
+(defn quintuple? [digit [_ hash]]
   (clojure.string/index-of hash (str digit digit digit digit digit)))
 
-(defn key? [stream ^String hash]
+(defn key? [hashes hash]
   (if-let [digit (triple hash)]
-    (some #(quintuple? digit %) (take 1000 stream))))
+    (some #(quintuple? digit %) (take 1000 hashes))))
 
-(defn hash-stream [f ^String salt]
-  (map (fn [n] (list n (f (str salt n)))) (range)))
+(defn iterated-hash [iterations salt]
+  (map (fn [n]
+         (list n (nth (iterate md5 (str salt n)) iterations)))
+       (range)))
 
-(defn key-stream [stream]
-  (filter (fn [[n hash]] (key? (drop (inc n) stream) hash)) stream))
+(defn solve [salt iterations]
+  (let [hashes (iterated-hash iterations salt)]
+    (filter (fn [[n hash]] (key? (drop (inc n) hashes) hash))
+            hashes)))
 
-(defn stretched-md5 [^String hash]
-  (nth (iterate md5 hash) 2017))
-
-(def solution1-key-stream (->> puzzle
-                               (hash-stream md5)
-                               key-stream))
-(def solution1 (take 64 solution1-key-stream))
-
-(def solution2-key-stream (->> puzzle
-                               (hash-stream stretched-md5)
-                               key-stream))
-(def solution2 (take 64 solution2-key-stream))
+(def solution1 (take 64 (solve puzzle 1)))
+(def solution2 (take 64 (solve puzzle 2017)))
