@@ -1,13 +1,10 @@
 (ns advent2016.day5
   (:import [java.security MessageDigest])
-  (:require [clojure.string :as s]))
+  (:require [clojure.string :as s]
+            [advent2016.core :refer [md5]]))
 
 (def example1 "abc")
 (def puzzle (slurp "../day5.data"))
-
-(defn md5 [s]
-  (let [digest (.digest (MessageDigest/getInstance "MD5") (.getBytes s))]
-    (apply format (clojure.string/join (repeat (count digest) "%02x")) digest)))
 
 (def solution-results (->> (map (comp md5 str) (repeat puzzle) (range))
                            (filter #(s/starts-with? % "00000"))))
