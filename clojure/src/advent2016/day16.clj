@@ -1,52 +1,50 @@
 (ns advent2016.day16
-  (:require [flatland.useful.seq :refer [lazy-loop]]))
+  (:import [java.nio CharBuffer]))
 
 (def example1 "10000")
 (def puzzle "01110110101001000")
 
-(defn flip-bits [bits]
-  (map not bits))
+(defn ^CharBuffer alloc [^String s size]
+  (doto (CharBuffer/allocate size)
+    (.put s)))
 
-(defn inflate-once [required [n bits]]
-  [(inc (* 2 n))
-   (lazy-cat bits
-             '(false)
-             (flip-bits (reverse bits)))])
+(defn ^Character flip [^Character c]
+  (case c
+    \0 \1
+    \1 \0))
 
-(defn inflate [target bits]
-  (loop [[n bits :as input] bits]
-    (let [required (- target n 1)]
-      (if (< n target)
-        (recur (inflate-once target input))
-        [target (take target bits)]))))
+(defn ^CharBuffer duplicate-backwards [^CharBuffer buf]
+  (.put buf \0)
+  (let [read                (.position buf)
+        ^CharBuffer new-buf (.duplicate buf)
+        count               (min read (inc (- (.capacity buf) read)))
+        arr                 (char-array (dec count))]
+    (.position new-buf (- (.position buf) count))
+    (.get new-buf arr)
+    (.put buf (char-array (reverse (map flip arr))))))
 
+(defn ^CharBuffer fill-disk [^CharBuffer buf]
+  (loop [buf buf]
+    (if (zero? (.remaining buf))
+      buf
+      (recur (duplicate-backwards buf)))))
 
-(defn checksum-once [[_ bits]]
-  (reduce (fn [[n bits] [a b]]
-            [(inc n) (conj bits (= a b))])
-          [0 []]
-          (partition 2 bits)))
+(defn checksum [^CharBuffer buf]
+  (loop [^CharBuffer buf buf]
+    (.position buf 0)
+    (let [^CharBuffer result (CharBuffer/allocate (/ (.capacity buf) 2))]
+      (dotimes [_ (.capacity result)]
+        (let [a (.get buf)
+              b (.get buf)]
+          (.put result (if (= a b) \1 \0))))
+      (if (odd? (.capacity result))
+        (String. (.array result))
+        (recur result)))))
 
-(defn checksum [bits]
-  (loop [[n _ :as bits] (checksum-once bits)]
-    (if (even? n)
-      (recur (checksum-once bits))
-      bits)))
+(def solution1 (->> (alloc puzzle 272)
+                    fill-disk
+                    checksum))
 
-(defn ->bits [s]
-  [(count s) (map #(= % \1) s)])
-
-(defn <-bits [[_ bits]]
-  (apply str (map #(if % "1" "0") bits)))
-
-(def solution1 (->> puzzle
-                    ->bits
-                    (inflate 272)
-                    checksum
-                    <-bits))
-
-(def solution2 (->> puzzle
-                    ->bits
-                    (inflate 35651584)
-                    checksum
-                    <-bits))
+(def solution2 (->> (alloc puzzle 35651584)
+                    fill-disk
+                    checksum))
