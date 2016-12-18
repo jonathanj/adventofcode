@@ -10,9 +10,8 @@
 
 (defn rows [previous]
   (lazy-seq
-   (let [[[_ b] :as xs] (partition 3 1 (repeat false) previous)
-         next-tiles     (cons b (map trap? xs))]
-     (cons (count (remove identity previous)) (rows next-tiles)))))
+   (let [xs (partition 3 1 (repeat false) (cons false previous))]
+     (cons (count (remove identity previous)) (rows (map trap? xs))))))
 
 (defn parse [s]
   (map (partial = \^) s))
