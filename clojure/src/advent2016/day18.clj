@@ -4,19 +4,15 @@
 (def example2 ".^^.^.^^^^")
 (def puzzle (slurp "../day18.data"))
 
-(defn trap? [xs]
-  (condp = xs
-    [true true false]  true
-    [false true true]  true
-    [true false false] true
-    [false false true] true
-    false))
+(defn trap? [[a _ c]]
+  (and (not= a c)
+       (or a c)))
 
 (defn rows [previous]
   (lazy-seq
-   (let [tmp        (partition 3 1 (repeat false) previous)
-         next-tiles (map trap? (cons (cons false (butlast (first tmp))) tmp))]
-     (cons (count (filter false? previous)) (rows next-tiles)))))
+   (let [[[_ b] :as xs] (partition 3 1 (repeat false) previous)
+         next-tiles     (cons b (map trap? xs))]
+     (cons (count (remove identity previous)) (rows next-tiles)))))
 
 (defn parse [s]
   (map (partial = \^) s))
