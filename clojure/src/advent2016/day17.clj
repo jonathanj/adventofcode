@@ -35,15 +35,15 @@
 
 (defn vault [[path pos] _ _] (when (= pos [3 3]) path))
 
-(def solution1 (-> (partial doors puzzle)
-                   (bf-traverse [[] [0 0]] :f vault)
-                   (->> (remove nil?)
-                        first
-                        (map name)
-                        (apply str))))
+(def solution1 (delay (-> (partial doors puzzle)
+                          (bf-traverse [[] [0 0]] :f vault)
+                          (->> (remove nil?)
+                               first
+                               (map name)
+                               (apply str)))))
 
-(def solution2 (-> (partial doors puzzle)
-                   (bf-traverse [[] [0 0]] :f vault)
-                   (->> (remove nil?)
-                        (map count)
-                        (apply max))))
+(def solution2 (delay (-> (partial doors puzzle)
+                          (bf-traverse [[] [0 0]] :f vault)
+                          (->> (remove nil?)
+                               (map count)
+                               (apply max)))))
