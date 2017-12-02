@@ -8,7 +8,8 @@
                  [org.clojure/math.combinatorics "0.1.3"]
                  [com.taoensso/tufte "1.1.0"]
                  [aysylu/loom "0.6.0"]
-                 [org.flatland/useful "0.11.5"]]
+                 [org.flatland/useful "0.11.5"]
+                 [org.clojure/data.finger-tree "0.0.2"]]
   :main ^:skip-aot advent2016.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
