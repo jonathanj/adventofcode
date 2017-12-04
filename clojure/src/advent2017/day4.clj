@@ -3,13 +3,13 @@
 
 
 (defn solve [xform lines]
-  (let [counter (atom 0)]
-    (doseq [line lines
-            :let [words (map xform (->words line))]]
-      (when (= (count words)
-               (count (set words)))
-        (swap! counter inc)))
-    @counter))
+  (reduce (fn [counter words]
+            (if (= (count words)
+                   (count (set words)))
+              (inc counter)
+              counter))
+          0
+          (map (comp xform ->words) lines)))
 
 (def solve-1 (partial solve identity))
 (def solve-2 (partial solve frequencies))
