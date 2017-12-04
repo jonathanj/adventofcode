@@ -9,6 +9,7 @@
   http://adventofcode.com/2017/day/4"
   (:require [advent2017.core :refer [->words]]))
 
+(def puzzle (line-seq (clojure.java.io/file "../2017/day4.data")))
 
 (defn solve [xform lines]
   (reduce (fn [counter words]
@@ -26,11 +27,11 @@
   (assert (= (solve-1 ["aa bb cc dd ee"]) 1))
   (assert (= (solve-1 ["aa bb cc dd aa"]) 0))
   (assert (= (solve-1 ["aa bb cc dd aaa"]) 1))
-  (solve-1 (line-seq (clojure.java.io/reader "../2017/day4.data")))
+  (solve-1 puzzle)
 
   (assert (= (solve-2 ["abcde fghij"]) 1))
   (assert (= (solve-2 ["abcde xyz ecdab"]) 0))
   (assert (= (solve-2 ["a ab abc abd abf abj"]) 1))
   (assert (= (solve-2 ["iiii oiii ooii oooi oooo"]) 1))
   (assert (= (solve-2 ["oiii ioii iioi iiio"]) 0))
-  (solve-2 (line-seq (clojure.java.io/reader "../2017/day4.data"))))
+  (solve-2 puzzle))

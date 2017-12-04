@@ -1,29 +1,36 @@
-(ns advent2017.day1)
+(ns advent2017.day1
+  "Part 1 requires producing the sum where the next digit is the equal to the
+  current digit, with wraparound.
+
+  Part 2 requires producing the sum where the digit half-way around is equal to
+  the current digit, with wraparound.
+
+  http://adventofcode.com/2017/day/1")
 
 (def puzzle (slurp (clojure.java.io/file "../2017/day1.data")))
 
 (defn char->int [c]
   (- (int c) (int \0)))
 
-(def by-one (constantly 1))
-(def by-half #(/ % 2))
-
-(defn solve [input increment]
+(defn solve [increment input]
   (let [incr (increment input)]
     (apply + (for [[n c]  (enumerate input)
                    :when (= c (nth input (mod (+ n incr) (count input))))]
                 (char->int c)))))
 
-(comment
-  (assert (= (solve "1122" by-one) 3))
-  (assert (= (solve "1111" by-one) 4))
-  (assert (= (solve "1234" by-one) 0))
-  (assert (= (solve "91212129" by-one) 9))
-  (solve puzzle by-one)
+(def solve-1 (partial solve (constantly 1)))
+(def solve-2 (partial solve #(/ % 2)))
 
-  (assert (= (solve "1212" by-half) 6))
-  (assert (= (solve "1221" by-half) 0))
-  (assert (= (solve "123425" by-half) 4))
-  (assert (= (solve "123123" by-half) 12))
-  (assert (= (solve "12131415" by-half) 4))
-  (solve puzzle by-half))
+(comment
+  (assert (= (solve-1 "1122") 3))
+  (assert (= (solve-1 "1111") 4))
+  (assert (= (solve-1 "1234") 0))
+  (assert (= (solve-1 "91212129") 9))
+  (solve-1 puzzle)
+
+  (assert (= (solve-2 "1212") 6))
+  (assert (= (solve-2 "1221") 0))
+  (assert (= (solve-2 "123425") 4))
+  (assert (= (solve-2 "123123") 12))
+  (assert (= (solve-2 "12131415") 4))
+  (solve-2 puzzle))
