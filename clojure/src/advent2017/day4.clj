@@ -1,4 +1,10 @@
 (ns advent2017.day4
+  "Part 1 is simply finding duplicate words, we can compare the length of the
+  original list of words with the length of a set of the original list, if there
+  are any duplicates the lengths will be unequal.
+
+  Part 2 requires checking anagrams. For two words to be anagrams all we need to
+  do is compare letter frequencies."
   (:require [advent2017.core :refer [->words]]))
 
 
