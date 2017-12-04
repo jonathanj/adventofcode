@@ -3,9 +3,12 @@
 (defn enumerate [xs]
   (map vector (range) xs))
 
+(defn ->words [s]
+  (clojure.string/split s #"\s+"))
+
 (defn lines->numbers [lines]
   (for [line lines]
-    (map #(Integer/parseInt %) (clojure.string/split line #"\s+"))))
+    (map #(Integer/parseInt %) (->words line))))
 
 (defn manhattan-distance
   ([[x2 y2]]
