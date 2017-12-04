@@ -4,7 +4,9 @@
   are any duplicates the lengths will be unequal.
 
   Part 2 requires checking anagrams. For two words to be anagrams all we need to
-  do is compare letter frequencies."
+  do is compare letter frequencies.
+
+  http://adventofcode.com/2017/day/4"
   (:require [advent2017.core :refer [->words]]))
 
 
