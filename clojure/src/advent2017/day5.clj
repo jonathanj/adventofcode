@@ -4,8 +4,7 @@
 
 (def puzzle (->> (clojure.java.io/reader "../2017/day5.data")
                  (line-seq)
-                 (map #(Integer/parseInt %))
-                 (vec)))
+                 (mapv #(Integer/parseInt %))))
 
 (defn solve [inc-fn input]
   (loop [input' (transient input)
