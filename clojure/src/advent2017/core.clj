@@ -20,7 +20,6 @@
 (defn ->numbers [xs]
   (map #(Integer/parseInt %) xs))
 
-(def words->numbers (comp ->numbers ->words))
 (def lines->numbers (partial map words->numbers))
 
 (defn manhattan-distance

@@ -4,9 +4,9 @@
   required to reach a previously seen state from the initial state. Part 2 feeds
   the previously seen state into part 1 to determine the size of the cycle
   loop."
-  (:require [advent2017.core :refer [read-puzzle words->numbers]]))
+  (:require [advent2017.core :refer [read-puzzle ->words ->numbers]]))
 
-(def puzzle (read-puzzle "day6.data" words->numbers))
+(def puzzle (read-puzzle "day6.data" (comp ->numbers ->words)))
 
 (defn redistribute [memory [idx m]]
   (loop [memory (assoc memory idx 0)
