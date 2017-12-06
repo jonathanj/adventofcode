@@ -3,11 +3,10 @@
   we've seen before. Part 1 ends here, the result is the number of cycles
   required to reach a previously seen state from the initial state. Part 2 feeds
   the previously seen state into part 1 to determine the size of the cycle
-  loop.")
+  loop."
+  (:require [advent2017.core :refer [read-puzzle words->numbers]]))
 
-(def puzzle (-> (slurp (clojure.java.io/file "../2017/day6.data"))
-                (clojure.string/split #"\s+")
-                (->> (mapv #(Integer/parseInt %)))))
+(def puzzle (read-puzzle "day6.data" words->numbers))
 
 (defn redistribute [memory [idx m]]
   (loop [memory (assoc memory idx 0)

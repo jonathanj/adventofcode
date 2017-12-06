@@ -1,10 +1,9 @@
 (ns advent2017.day5
   "Mutate the input repeatedly after each jump, with only the mutation differing
-  between part 1 and part 2.")
+  between part 1 and part 2."
+  (:require [advent2017.core :refer [read-puzzle lines->numbers]]))
 
-(def puzzle (->> (clojure.java.io/reader "../2017/day5.data")
-                 (line-seq)
-                 (mapv #(Integer/parseInt %))))
+(def puzzle (read-puzzle "day5.data" lines->numbers))
 
 (defn solve [inc-fn input]
   (loop [input' (transient input)

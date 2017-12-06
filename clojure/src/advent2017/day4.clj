@@ -7,9 +7,9 @@
   do is compare letter frequencies.
 
   http://adventofcode.com/2017/day/4"
-  (:require [advent2017.core :refer [->words]]))
+  (:require [advent2017.core :refer [read-puzzle ->words ->lines]]))
 
-(def puzzle (line-seq (clojure.java.io/file "../2017/day4.data")))
+(def puzzle (read-puzzle "day4.data" ->lines))
 
 (defn solve [xform lines]
   (reduce (fn [counter words]

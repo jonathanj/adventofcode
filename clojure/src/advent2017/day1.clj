@@ -5,9 +5,10 @@
   Part 2 requires producing the sum where the digit half-way around is equal to
   the current digit, with wraparound.
 
-  http://adventofcode.com/2017/day/1")
+  http://adventofcode.com/2017/day/1"
+  (:require [advent2017.core :refer [enumerate read-puzzle]]))
 
-(def puzzle (slurp (clojure.java.io/file "../2017/day1.data")))
+(def puzzle (read-puzzle "day1.data"))
 
 (defn char->int [c]
   (- (int c) (int \0)))

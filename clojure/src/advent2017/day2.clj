@@ -1,10 +1,8 @@
 (ns advent2017.day2
   "http://adventofcode.com/2017/day/2"
-  (:require [advent2017.core :refer [lines->numbers]]))
+  (:require [advent2017.core :refer [read-puzzle lines->numbers ->lines]]))
 
-(def puzzle (-> (clojure.java.io/reader "../2017/day2.data")
-                (line-seq)
-                (lines->numbers)))
+(def puzzle (read-puzzle "day2.data" (comp lines->numbers ->lines)))
 
 (defn solve [f rows]
   (apply + (map f rows)))
