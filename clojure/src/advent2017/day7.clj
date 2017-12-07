@@ -58,13 +58,12 @@
       [(- w (ffirst correct)) a])))
 
 (defn solve-2 [input]
-  (loop [node       (solve-1 input)
-         correction 0]
-    (let [[w children]        (input node)
-          [correction' node'] (unbalanced (weights input children))]
-      (if (nil? node')
+  (loop [[correction node] [0 (solve-1 input)]]
+    (let [[w children] (input node)
+          result       (unbalanced (weights input children))]
+      (if-not result
         (- w correction)
-        (recur node' correction')))))
+        (recur result)))))
 
 (comment
   (assert (= (solve-1 sample-puzzle) "tknk"))
