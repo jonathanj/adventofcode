@@ -1,6 +1,10 @@
 (ns advent2017.day7
+  "Part 1 finds the node with the highest cumulative weight, which is the
+  bottom-most node. Part 2 starts at the bottom most node, calculating the
+  cumulative weight for each one, if the weight of one child is not equal the
+  process is repeated for that child until no more imbalances are found. The
+  result is the corrected weight value for the problematic child."
   (:require [advent2017.core :refer [read-puzzle ->lines]]))
-
 
 (defn line->node [s]
   (let [[x xs]       (clojure.string/split s #" -> " 2)
@@ -36,32 +40,31 @@
         (recur w ks)))))
 
 (defn weights [input nodes]
-  (map (juxt identity (partial weight input)) nodes))
+  (map (juxt (partial weight input) identity) nodes))
 
 (defn solve-1 [input]
   (->> (keys input)
        (weights input)
-       (apply max-key second)
-       (first)))
+       (apply max-key first)
+       (second)))
 
-(defn odd-one [xs]
-  (->> xs
-       (sort-by second)
-       (partition-by second)
-       (filter #(= 1 (count %)))
-       (first)
-       (ffirst)))
+(defn unbalanced [xs]
+  (let [correct (set (for [[w a] xs
+                           [v b] xs
+                           :when (and (not= a b) (= w v))]
+                       [w a]))
+        [w a]   (first (clojure.set/difference (set xs) correct))]
+    (when a
+      [(- w (ffirst correct)) a])))
 
 (defn solve-2 [input]
-  (loop [root         (solve-1 input)
-         prev-weights []]
-    (let [[w children] (input root)
-          weights      (weights input children)
-          new-root     (odd-one weights)
-          ]
-      (if (nil? new-root)
-        (+ w (apply - (sort (set (map second prev-weights)))))
-        (recur new-root weights)))))
+  (loop [node       (solve-1 input)
+         correction 0]
+    (let [[w children]        (input node)
+          [correction' node'] (unbalanced (weights input children))]
+      (if (nil? node')
+        (- w correction)
+        (recur node' correction')))))
 
 (comment
   (assert (= (solve-1 sample-puzzle) "tknk"))
