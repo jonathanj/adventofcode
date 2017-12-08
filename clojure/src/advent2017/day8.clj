@@ -3,7 +3,7 @@
   the condition and alters the registers. Part 1 is just a matter of reducing
   over the input and checking the result. Part 2 is a matter of tracking the
   all-time-high at each iteration."
-  (:require [advent2017.core :refer [read-puzzle ->lines max*]]))
+  (:require [advent2017.core :refer [read-puzzle ->lines]]))
 
 (def instructions
   {"inc" +
