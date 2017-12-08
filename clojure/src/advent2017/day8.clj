@@ -8,12 +8,12 @@
 (def instructions
   {"inc" +
    "dec" -
-   ">" >
-   "<" <
-   ">=" >=
-   "<=" <=
-   "==" =
-   "!=" not=})
+   ">"   >
+   "<"   <
+   ">="  >=
+   "<="  <=
+   "=="  =
+   "!="  not=})
 
 (defn line->instruction [s]
   (let [[_ dst inst' off' src cmp-inst' x']
