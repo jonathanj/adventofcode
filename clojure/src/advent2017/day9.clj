@@ -1,7 +1,7 @@
 (ns advent2017.day9
   "Write an instaparse grammar to parse the input into groups of garbage,
-  ignoring the discard garbage. Part 1 is the sum of the bread-first depths of
-  the groups. Part 2 is the sum of the number of non-discard garbage."
+  ignoring the discard garbage. Part 1 is the sum of the depths of the groups.
+  Part 2 is the sum of the number of non-discard garbage."
   (:require [instaparse.core :as insta]
             [advent2017.core :refer [read-puzzle ->lines]]))
 
