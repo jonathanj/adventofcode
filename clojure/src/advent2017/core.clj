@@ -28,3 +28,15 @@
   ([[x1 y1] [x2 y2]]
    (+ (Math/abs (- x1 x2))
       (Math/abs (- y1 y2)))))
+
+(defn bfs-lazy [tree pred f]
+  ((fn step [queue]
+     (lazy-seq
+      (when (seq queue)
+        (let [[[node & children] depth] (peek queue)
+              xs (step (into (pop queue)
+                             (map vector children (repeat (inc depth)))))]
+          (if (pred node depth children)
+            (cons (f node depth children) xs)
+            xs)))))
+   (conj clojure.lang.PersistentQueue/EMPTY [tree 0])))

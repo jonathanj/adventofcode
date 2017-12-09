@@ -9,7 +9,9 @@
                  [com.taoensso/tufte "1.1.0"]
                  [aysylu/loom "0.6.0"]
                  [org.flatland/useful "0.11.5"]
-                 [org.clojure/data.finger-tree "0.0.2"]]
+                 [org.clojure/data.finger-tree "0.0.2"]
+                 [instaparse "1.4.8"]
+                 ]
   :main ^:skip-aot advent2016.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
