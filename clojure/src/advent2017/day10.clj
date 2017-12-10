@@ -57,7 +57,7 @@
        (apply *)))
 
 (defn solve-2 [input]
-  (-> (map bytes input)
+  (-> (map byte input)
       (concat (list 17 31 73 47 23))
       (vec)
       (rounds 64)
