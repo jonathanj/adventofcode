@@ -22,6 +22,9 @@
 
 (def lines->numbers (partial map words->numbers))
 
+(defn csv->numbers [s]
+  (->numbers (clojure.string/split s #",")))
+
 (defn manhattan-distance
   ([[x2 y2]]
    (manhattan-distance [0 0] [x2 y2]))
