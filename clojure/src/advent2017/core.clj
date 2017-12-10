@@ -20,7 +20,8 @@
 (defn ->numbers [xs]
   (map #(Integer/parseInt %) xs))
 
-(def lines->numbers (partial map words->numbers))
+(def lines->numbers (comp (partial map (comp ->numbers ->words))
+                          ->lines))
 
 (defn csv->numbers [s]
   (->numbers (clojure.string/split s #",")))
