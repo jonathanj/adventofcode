@@ -21,12 +21,12 @@
     (if (<= length 1)
       ring
       (loop [res      ring
-             n        0
+             pos      start
              [x & xs] (reverse (subring ring start length))]
         (if-not x
           res
-          (recur (assoc res (mod (+ start n) size) x)
-                 (inc n)
+          (recur (assoc res pos x)
+                 (mod (inc pos) size)
                  xs))))))
 
 (defn rounds
