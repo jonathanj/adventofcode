@@ -6,7 +6,7 @@
 (def puzzle (read-puzzle "day9.data" (comp first ->lines)))
 
 (defn solve [input]
-  (reduce (fn [{:keys [mode depth depths garbage] :as state} c]
+  (reduce (fn [{:keys [mode depth] :as state} c]
             (case mode
               :group   (case c
                          \{ (-> state
