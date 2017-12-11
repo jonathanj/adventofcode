@@ -17,14 +17,16 @@
 (defn ->words [s]
   (clojure.string/split s #"\s+"))
 
+(defn ->csv [s]
+  (clojure.string/split s #","))
+
 (defn ->numbers [xs]
   (map #(Integer/parseInt %) xs))
 
 (def lines->numbers (comp (partial map (comp ->numbers ->words))
                           ->lines))
 
-(defn csv->numbers [s]
-  (->numbers (clojure.string/split s #",")))
+(def csv->numbers (comp ->numbers ->csv))
 
 (defn manhattan-distance
   ([[x2 y2]]
