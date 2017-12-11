@@ -3,7 +3,7 @@
   ignoring the discard garbage. Part 1 is the sum of the depths of the groups.
   Part 2 is the sum of the number of non-discard garbage."
   (:require [instaparse.core :as insta]
-            [advent2017.core :refer [read-puzzle ->lines]]))
+            [advent2017.core :refer [read-puzzle ->lines bfs-lazy]]))
 
 (def puzzle (read-puzzle "day9.data" (comp first ->lines)))
 
