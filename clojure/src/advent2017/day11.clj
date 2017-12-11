@@ -9,16 +9,6 @@
 
 (def puzzle (read-puzzle "day11.data" (comp ->csv first ->lines)))
 
-(defn cube-distance
-  ([[dx dy dz]]
-   (cube-distance [0 0 0] [dx dy dz]))
-  ([[sx sy sz] [dx dy dz]]
-   (/ (+ (Math/abs (- sx dx))
-         (Math/abs (- sy dy))
-         (Math/abs (- sz dz))) 2)))
-
-(defn step [pos off] (mapv + pos off))
-
 (def dir->offset
   {"se" [(+ 1) (- 1)   0  ]
    "ne" [(+ 1)   0   (- 1)]
@@ -26,6 +16,12 @@
    "nw" [(- 1) (+ 1)   0  ]
    "sw" [(- 1)   0   (+ 1)]
    "s"  [  0   (- 1) (+ 1)]})
+
+(defn cube-distance
+  ([a] (cube-distance [0 0 0] a))
+  ([a b] (/ (apply + (map (comp #(Math/abs %) -) a b)) 2)))
+
+(defn step [pos off] (mapv + pos off))
 
 (defn navigation [input]
   (reductions step [0 0 0] (map dir->offset input)))
