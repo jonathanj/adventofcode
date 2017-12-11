@@ -1,31 +1,33 @@
 (ns advent2017.day9
-  "Write an instaparse grammar to parse the input into groups of garbage,
-  ignoring the discard garbage. Part 1 is the sum of the depths of the groups.
-  Part 2 is the sum of the number of non-discard garbage."
-  (:require [instaparse.core :as insta]
-            [advent2017.core :refer [read-puzzle ->lines bfs-lazy]]))
+  "A FSM that tracks group depths and non-discard garbage counts. See git
+  history for the Instaparse grammar version."
+  (:require [advent2017.core :refer [read-puzzle ->lines]]))
 
 (def puzzle (read-puzzle "day9.data" (comp first ->lines)))
 
-(def parser
-  (memoize
-   (insta/parser
-    "group           = <'{'> (group_inner <','>)* group_inner? <'}'>
-     <group_inner>   = group | garbage
-     garbage         = <'<'> garbage_inner* <'>'>
-     <garbage_inner> = <garbage_discard> | garbage_keep
-     garbage_discard = #'!.'
-     <garbage_keep>  = !garbage_discard (#'[^>]')")))
+(defn solve [input]
+  (reduce (fn [{:keys [mode depth depths garbage] :as state} c]
+            (case mode
+              :group   (case c
+                         \{ (-> state
+                                (update :depth inc)
+                                (update :depths conj (inc depth)))
+                         \} (update state :depth dec)
+                         \, state
+                         \< (assoc state :mode :garbage))
+              :garbage (case c
+                         \! (assoc state :mode :discard)
+                         \> (assoc state :mode :group)
+                         (update state :garbage inc))
+              :discard (assoc state :mode :garbage)))
+          {:mode    :group
+           :depth   0
+           :depths  []
+           :garbage 0}
+          input))
 
-(defn solve-1 [input]
-  (apply + (bfs-lazy (parser input)
-                     (fn [a _ _] (= a :group))
-                     (fn [_ depth _] (inc depth)))))
-
-(defn solve-2 [input]
-  (apply + (bfs-lazy (parser input)
-                     (fn [a _ _] (= a :garbage))
-                     (fn [a _ b] (count b)))))
+(def solve-1 (comp (partial apply +) :depths solve))
+(def solve-2 (comp :garbage solve))
 
 (comment
   (assert (= (solve-1 "{}") 1))
