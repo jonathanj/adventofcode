@@ -17,11 +17,13 @@
 (defn ->words [s]
   (clojure.string/split s #"\s+"))
 
-(defn ->csv [s]
-  (clojure.string/split s #","))
+(defn ->csv
+  ([s] (->csv s true))
+  ([s trim?] (map (if trim? clojure.string/trim identity)
+                  (clojure.string/split s #","))))
 
 (defn ->numbers [xs]
-  (map #(Integer/parseInt %) xs))
+  (map #(Integer/parseInt (clojure.string/trim %)) xs))
 
 (def lines->numbers (comp (partial map (comp ->numbers ->words))
                           ->lines))
