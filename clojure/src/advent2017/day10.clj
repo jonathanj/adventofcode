@@ -6,43 +6,37 @@
 
 (def puzzle (read-puzzle "day10.data" (comp first ->lines)))
 
-(defn subring [ring start length]
-  (let [size (count ring)
-        end  (mod (+ start length) size)]
-    (if (> end start)
-      ;; No wrapping is taking place, so just the simple subvec.
-      (subvec ring start end)
-      ;; Implement wrapping by joining two subvecs.
-      (vec (concat (subvec ring start)
-                   (subvec ring 0 end))))))
-
-(defn reverse-subring [ring start length]
-  (let [size (count ring)]
-    (if (<= length 1)
-      ring
-      (loop [res      ring
-             pos      start
-             [x & xs] (reverse (subring ring start length))]
-        (if-not x
-          res
-          (recur (assoc res pos x)
-                 (mod (inc pos) size)
-                 xs))))))
+(defn reverse-subring [ring size start length]
+  (if (<= length 1)
+    ring
+    (loop [res ring
+           a   start
+           b   (rem (+ start (dec length)) size)
+           n   (int (/ length 2))]
+      (if (== n 0)
+        res
+        (recur (assoc! res
+                       a (nth res b)
+                       b (nth res a))
+               (rem (inc a) size)
+               (mod (dec b) size)
+               (dec n))))))
 
 (defn rounds
   ([input n]
    (rounds (vec (range 256)) input n))
   ([ring input n]
-   (let [size (count ring)]
-     (loop [res      ring
+   (let [size       (count ring)
+         input-size (count input)]
+     (loop [res      (transient ring)
             [l & ls] (apply concat (repeat n input))
             pos      0
             skip     0]
        (if-not l
-         res
-         (recur (reverse-subring res pos l)
+         (persistent! res)
+         (recur (reverse-subring res size pos l)
                 ls
-                (mod (+ pos l skip) size)
+                (rem (+ pos l skip) size)
                 (inc skip)))))))
 
 (defn dense [xs]
@@ -56,13 +50,14 @@
        (take 2)
        (apply *)))
 
-(defn solve-2 [input]
-  (-> (map byte input)
-      (concat (list 17 31 73 47 23))
-      (vec)
+(defn knot-hash [input]
+  (-> (mapv byte input)
+      (conj 17 31 73 47 23)
       (rounds 64)
-      (dense)
-      (bytes->hex)))
+      (dense)))
+
+(defn solve-2 [input]
+  (bytes->hex (knot-hash input)))
 
 (comment
   (assert (= (solve-1 [0 1 2 3 4] "3,4,1,5") 12))

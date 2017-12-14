@@ -48,3 +48,11 @@
             (cons (f node depth children) xs)
             xs)))))
    (conj clojure.lang.PersistentQueue/EMPTY [tree 0])))
+
+(defn num->binary [n padding]
+  (let [bs (Integer/toBinaryString n)
+        p  (- (Integer/numberOfLeadingZeros n) 24)
+        r  (apply str (repeat p "0"))]
+    (if (== p 8)
+      r
+      (str r bs))))
