@@ -1,5 +1,7 @@
 (ns advent2017.core)
 
+(set! *warn-on-reflection* true)
+
 (defn read-puzzle
   ([name]
    (read-puzzle name identity))
@@ -33,7 +35,7 @@
 (defn manhattan-distance
   ([[x2 y2]]
    (manhattan-distance [0 0] [x2 y2]))
-  ([[x1 y1] [x2 y2]]
+  ([[^long x1 ^long y1] [^long x2 ^long y2]]
    (+ (Math/abs (- x1 x2))
       (Math/abs (- y1 y2)))))
 
@@ -49,7 +51,7 @@
             xs)))))
    (conj clojure.lang.PersistentQueue/EMPTY [tree 0])))
 
-(defn num->binary [n padding]
+(defn num->binary [^Integer n padding]
   (let [bs (Integer/toBinaryString n)
         p  (- (Integer/numberOfLeadingZeros n) 24)
         r  (apply str (repeat p "0"))]

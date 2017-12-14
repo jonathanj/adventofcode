@@ -6,7 +6,7 @@
 
 (def puzzle (read-puzzle "day10.data" (comp first ->lines)))
 
-(defn reverse-subring [ring size start length]
+(defn reverse-subring [^ints ring ^long size ^long start ^long length]
   (if (<= length 1)
     ring
     (loop [res ring
@@ -15,12 +15,14 @@
            n   (int (/ length 2))]
       (if (== n 0)
         res
-        (recur (assoc! res
-                       a (nth res b)
-                       b (nth res a))
-               (rem (inc a) size)
-               (mod (dec b) size)
-               (dec n))))))
+        (let [av (aget res a)
+              bv (aget res b)]
+          (aset res a bv)
+          (aset res b av)
+          (recur res
+                 (rem (inc a) size)
+                 (mod (dec b) size)
+                 (dec n)))))))
 
 (defn rounds
   ([input n]
@@ -28,12 +30,12 @@
   ([ring input n]
    (let [size       (count ring)
          input-size (count input)]
-     (loop [res      (transient ring)
+     (loop [res      (int-array ring)
             [l & ls] (apply concat (repeat n input))
             pos      0
             skip     0]
        (if-not l
-         (persistent! res)
+         (vec res)
          (recur (reverse-subring res size pos l)
                 ls
                 (rem (+ pos l skip) size)
@@ -51,7 +53,7 @@
        (apply *)))
 
 (defn knot-hash [input]
-  (-> (mapv byte input)
+  (-> (mapv int input)
       (conj 17 31 73 47 23)
       (rounds 64)
       (dense)))
