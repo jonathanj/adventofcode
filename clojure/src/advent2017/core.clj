@@ -24,8 +24,11 @@
   ([s trim?] (map (if trim? clojure.string/trim identity)
                   (clojure.string/split s #","))))
 
+(defn ->number [x]
+  (Integer/parseInt (clojure.string/trim x)))
+
 (defn ->numbers [xs]
-  (map #(Integer/parseInt (clojure.string/trim %)) xs))
+  (map ->number xs))
 
 (def lines->numbers (comp (partial map (comp ->numbers ->words))
                           ->lines))

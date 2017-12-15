@@ -2,7 +2,7 @@
   "http://adventofcode.com/2017/day/2"
   (:require [advent2017.core :refer [read-puzzle lines->numbers ->lines]]))
 
-(def puzzle (read-puzzle "day2.data" (comp lines->numbers ->lines)))
+(def puzzle (read-puzzle "day2.data" lines->numbers))
 
 (defn solve [f rows]
   (apply + (map f rows)))
