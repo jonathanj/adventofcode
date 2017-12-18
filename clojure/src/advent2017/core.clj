@@ -61,3 +61,6 @@
     (if (== p 8)
       r
       (str r bs))))
+
+(defn number-string? [s]
+  (re-find #"-?\d+" s))
