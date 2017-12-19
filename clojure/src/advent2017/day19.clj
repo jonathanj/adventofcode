@@ -21,9 +21,9 @@
    "     +B-+  +--+ "])
 (def puzzle (read-puzzle "day19.data" ->lines))
 
-(def pathway? #{\| \- \+})
+(def path? #{\| \- \+})
 (def letter? (set "ABCDEFGHIJKLMNOPQRSTUVWXYZ"))
-(def traversable? (clojure.set/union pathway? letter?))
+(def traversable? (clojure.set/union path? letter?))
 
 (defn valid-step? [[m [w h]] [x y [dx dy]]]
   (let [nx (+ x dx)
@@ -47,8 +47,7 @@
 (defn solve [[step [m [w _] :as mp]]]
   (bf-traverse (partial neighbours mp) step
                :f (fn [[x y _] _ _]
-                    (let [idx (+ x (* w y))]
-                      (m idx)))))
+                    (m (+ x (* w y))))))
 
 (def solve-1 (comp clojure.string/join
                    (partial filter letter?)
