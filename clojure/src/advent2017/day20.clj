@@ -1,7 +1,8 @@
 (ns advent2017.day20
-  "Part 1 is the particle with the smallest acceleration magnitude. Part 2 is a
-  total hack because I don't know how to determine that remaining particles
-  cannot collide."
+  "Part 1 is the particle with the smallest acceleration magnitude. Part 2 is
+  simulating the particles and eliminating collisions until there are no more
+  collisions; which is detected by ensuring that the remaining particles when
+  sorted by magnitude are also sorted by velocity and acceleration."
   (:require [advent2017.core :refer [read-puzzle
                                      ->lines
                                      ->csv
@@ -35,28 +36,35 @@
         p' (mapv + p v')]
     (assoc particle :v v' :p p')))
 
+(defn metric [c]
+  (apply + (map #(* ^long % ^long %) c)))
+
+(defn sorted-by? [f xs]
+  (loop [[x & xs'] xs]
+    (if-not xs'
+      true
+      (and (<= (f x) (f (first xs')))
+           (recur xs')))))
+
 (defn solve-1 [input]
   (->> input
-       (apply min-key (comp manhattan-distance :a))
+       (apply min-key (comp metric :a))
        :idx))
 
 (defn solve-2 [input]
-  (loop [particles input
-         ;; XXX: It actually converges much sooner than this.
-         ttl       (count input)]
-    (if (zero? ttl)
-      (count particles)
-      (let [particles  (map tick-particle particles)
-            collisions (->> particles
-                            (map :p)
-                            (frequencies)
-                            (filter #(> (val %) 1))
-                            (keys)
-                            (set))]
-        (recur (if (empty? collisions)
-                 particles
-                 (remove (comp collisions :p) particles))
-               (dec ttl))))))
+  (loop [particles input]
+    (let [ps (sort-by (comp metric :p) particles)]
+      (if (and (sorted-by? (comp metric :v) ps)
+               (sorted-by? (comp metric :a) ps))
+        (count particles)
+        (let [ps'        (map tick-particle ps)
+              collisions (->> ps'
+                              (map :p)
+                              (frequencies)
+                              (filter #(> (val %) 1))
+                              (keys)
+                              (set))]
+          (recur (remove (comp collisions :p) ps')))))))
 
 (comment
   (assert (= (solve-1 sample-puzzle) 0))
