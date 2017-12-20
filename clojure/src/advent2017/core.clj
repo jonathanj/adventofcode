@@ -36,11 +36,8 @@
 (def csv->numbers (comp ->numbers ->csv))
 
 (defn manhattan-distance
-  ([[x2 y2]]
-   (manhattan-distance [0 0] [x2 y2]))
-  ([[^long x1 ^long y1] [^long x2 ^long y2]]
-   (+ (Math/abs (- x1 x2))
-      (Math/abs (- y1 y2)))))
+  ([a] (manhattan-distance (repeat 0) a))
+  ([a b] (apply + (map (comp #(Math/abs ^long %) -) a b))))
 
 (defn bfs-lazy [tree pred f]
   ((fn step [queue]
