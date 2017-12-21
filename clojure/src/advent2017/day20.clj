@@ -31,13 +31,18 @@
 (def puzzle (read-puzzle "day20.data" (comp lines->particles
                                             ->lines)))
 
-(defn tick-particle [{:keys [p v a] :as particle}]
-  (let [v' (mapv + v a)
-        p' (mapv + p v')]
-    (assoc particle :v v' :p p')))
+(defn tick-particle [{:keys [^longs p ^longs v ^longs a] :as particle}]
+  (let [[px py pz]           p
+        [vx vy vz]           v
+        [ax ay az]           a
+        [vx' vy' vz' :as v'] [(+ vx ax) (+ vy ay) (+ vz az)]
+        p'                   [(+ px vx') (+ py vy') (+ pz vz')]]
+    (assoc particle
+           :v v'
+           :p p')))
 
-(defn metric [c]
-  (apply + (map #(* ^long % ^long %) c)))
+(defn ^long metric [^longs [x y z]]
+  (+ (* x x) (* y y) (* z z)))
 
 (defn sorted-by? [f xs]
   (loop [[x & xs'] xs]
