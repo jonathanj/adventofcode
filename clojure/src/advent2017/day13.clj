@@ -42,9 +42,7 @@
                     severity))))))))
 
 (defn solve-1 [input]
-  (->> input
-       (solve 0)
-       (apply +)))
+  (solve 0 input))
 
 (defn solve-2 [input]
   (loop [t 0]
