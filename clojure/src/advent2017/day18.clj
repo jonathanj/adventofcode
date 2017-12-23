@@ -12,12 +12,16 @@
     (number-string? op) (constantly (->int op))
     :else               #(% op)))
 
-(defn binary-op [op]
-  (fn [[a a'] [b b']]
-    (fn [reg _]
-      (-> reg
-          (update a op (b' reg))
-          (update :ip inc)))))
+(defn binary-op
+  ([op]
+   (binary-op op :unnamed))
+  ([op name]
+   (fn [[a a'] [b b']]
+     (fn [reg _]
+       (-> reg
+           (update a op (b' reg))
+           (update-in [:counts name] (fnil inc 0))
+           (update :ip inc))))))
 
 (def instruction-set-1
   {"set" (fn [[a _] [_ b']]
@@ -26,7 +30,7 @@
                  (assoc a (b' reg))
                  (update :ip inc))))
    "add" (binary-op +)
-   "mul" (binary-op *)
+   "mul" (binary-op * "mul")
    "mod" (binary-op mod)
    "jgz" (fn [[_ a'] [_ b']]
            (fn [reg _]
@@ -73,19 +77,26 @@
         b'         (op-value b)]
     ((get instruction-set inst) [a a'] [b b'])))
 
-(defn execute [pid chs program]
+(defn execute [registers chs program]
   (let [size    (count program)
         process (assoc registers
-                       "p"  pid
-                       :pid pid
-                       :ip  0)]
-    (async/go-loop [{:keys [ip] :as process} process]
+                       :ip  0
+                       :counts {})]
+    (loop [{:keys [ip] :as process} process]
       (if-not (< -1 ip size)
         process
         (let [res ((nth program ip) process chs)]
           (if (map? res)
             (recur res)
             (recur (async/<! res))))))))
+
+(defn execute-async [pid chs program]
+  (let [size    (count program)
+        process (assoc registers
+                       "p"  pid
+                       :pid pid)]
+    (async/go
+      (execute process chs program))))
 
 (def sample-puzzle ["set a 1"
                     "add a 2"
