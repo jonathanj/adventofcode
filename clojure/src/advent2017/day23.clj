@@ -1,7 +1,8 @@
 (ns advent2017.day23
   "Part 1 is a slightly modified version of day 18. Part 2 is reimplementing the
   program, which counts the number of composite numbers within some range."
-  (:require [advent2017.core :refer [read-puzzle ->lines]]
+  (:require [advent.core :refer [->lines]]
+            [advent2017.core :refer [read-puzzle]]
             [advent2017.day18 :refer [compile-instruction
                                       registers
                                       execute

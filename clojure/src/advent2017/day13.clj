@@ -1,7 +1,7 @@
 (ns advent2017.day13
   ""
-  (:require [clojure.core.reducers :as r]
-            [advent2017.core :refer [read-puzzle ->lines ->numbers]]))
+  (:require [advent.core :refer [->lines ->numbers]]
+            [advent2017.core :refer [read-puzzle]]))
 
 (defn parse-puzzle [lines]
   (->> lines

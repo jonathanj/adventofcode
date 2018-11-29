@@ -1,6 +1,7 @@
 (ns advent2017.day22
   ""
-  (:require [advent2017.core :refer [read-puzzle ->lines]]))
+  (:require [advent.core :refer [->lines]]
+            [advent2017.core :refer [read-puzzle]]))
 
 (def directions
   {:L [-1  0]

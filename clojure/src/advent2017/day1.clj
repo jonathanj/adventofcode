@@ -6,7 +6,8 @@
   the current digit, with wraparound.
 
   http://adventofcode.com/2017/day/1"
-  (:require [advent2017.core :refer [enumerate read-puzzle]]))
+  (:require [advent.core :refer [enumerate]]
+            [advent2017.core :refer [read-puzzle]]))
 
 (def puzzle (read-puzzle "day1.data"))
 

@@ -8,7 +8,7 @@
   next step is the sum of the adjacent neighbours of the new spiral position.
 
   http://adventofcode.com/2017/day/3"
-  (:require [advent2017.core :refer [manhattan-distance]]))
+  (:require [advent.core :refer [manhattan-distance]]))
 
 
 (def spiral (mapcat (fn [n [a b]] [[n a] [n b]])

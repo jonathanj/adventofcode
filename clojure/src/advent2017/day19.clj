@@ -3,7 +3,8 @@
   until it's no longer a valid neighbour. Part 1 is all of the letter nodes we
   visit. Part 2 is the number of nodes we visit."
   (:require [loom.alg-generic :refer [bf-traverse bf-path]]
-            [advent2017.core :refer [read-puzzle ->lines]]))
+            [advent.core :refer [->lines]]
+            [advent2017.core :refer [read-puzzle]]))
 
 (defn parse-map [lines]
   (let [w (count (first lines))

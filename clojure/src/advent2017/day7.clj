@@ -4,7 +4,8 @@
   cumulative weight for each one, if the weight of one child is not equal the
   process is repeated for that child until no more imbalances are found. The
   result is the corrected weight value for the problematic child."
-  (:require [advent2017.core :refer [read-puzzle ->lines]]))
+  (:require [advent.core :refer [->lines]]
+            [advent2017.core :refer [read-puzzle]]))
 
 (defn line->node [s]
   (let [[x xs]       (clojure.string/split s #" -> " 2)

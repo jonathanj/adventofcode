@@ -1,6 +1,7 @@
 (ns advent2017.day25
   (:require [instaparse.core :as insta]
-            [advent2017.core :refer [read-puzzle ->lines ->int]]))
+            [advent.core :refer [->lines ->int]]
+            [advent2017.core :refer [read-puzzle]]))
 
 (def puzzle-parser
   (insta/parser

@@ -1,7 +1,8 @@
 (ns advent2017.day9
   "A FSM that tracks group depths and non-discard garbage counts. See git
   history for the Instaparse grammar version."
-  (:require [advent2017.core :refer [read-puzzle ->lines]]))
+  (:require [advent.core :refer [->lines]]
+            [advent2017.core :refer [read-puzzle]]))
 
 (def puzzle (read-puzzle "day9.data" (comp first ->lines)))
 

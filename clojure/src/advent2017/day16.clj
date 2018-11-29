@@ -2,7 +2,8 @@
   "Part 1 is just applying the instructions to the string. Part 2 can be greatly
   accelerated by finding the size of the cycle and determining what the
   billionth value will be."
-  (:require [advent2017.core :refer [read-puzzle ->csv ->lines ->int]]))
+  (:require [advent.core :refer [->csv ->lines ->int]]
+            [advent2017.core :refer [read-puzzle]]))
 
 (defn rotate-right [^long n state]
   (let [x (- (count state) n)]

@@ -3,11 +3,9 @@
   simulating the particles and eliminating collisions until there are no more
   collisions; which is detected by ensuring that the remaining particles when
   sorted by magnitude are also sorted by velocity and acceleration."
-  (:require [advent2017.core :refer [read-puzzle
-                                     ->lines
-                                     ->csv
-                                     ->int
-                                     manhattan-distance]]))
+  (:require [advent.core :refer [->lines
+                                 ->int]]
+            [advent2017.core :refer [read-puzzle]]))
 
 (defn ->component [s]
   (let [[_ & v] (re-find #"< ?(-?\d+), ?(-?\d+), ?(-?\d+)>,?" s)]

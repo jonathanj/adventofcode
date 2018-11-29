@@ -3,7 +3,8 @@
   function in cube-coordinates. The directions can then be navigated by reducing
   the offsets. Part 1 is the distance from the final position to the origin.
   Part 2 is the intermediate step with the largest distance."
-  (:require [advent2017.core :refer [read-puzzle ->csv ->lines]]))
+  (:require [advent.core :refer [->csv ->lines]]
+            [advent2017.core :refer [read-puzzle]]))
 
 ;; https://www.redblobgames.com/grids/hexagons/
 

@@ -3,7 +3,8 @@
   length of a path we can solve part 1 by finding the maximimum strength value
   and part 2 by finding the strength of the maximum length value."
   (:require [loom.alg-generic :refer [bf-span]]
-            [advent2017.core :refer [read-puzzle ->lines ->int]]))
+            [advent.core :refer [->lines ->int]]
+            [advent2017.core :refer [read-puzzle]]))
 
 (defn lines->puzzle [lines]
   (set (map (fn [s] (mapv ->int (clojure.string/split s #"/"))) lines)))

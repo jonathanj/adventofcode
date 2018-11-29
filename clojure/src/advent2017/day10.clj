@@ -2,7 +2,8 @@
   "Implement a single round iteration by replacing affected elements one at a
   time forwards, with the reverse of the subring. Implement multiple rounds by
   repeating the input lengths n times."
-  (:require [advent2017.core :refer [read-puzzle ->lines csv->numbers]]))
+  (:require [advent.core :refer [->lines csv->numbers]]
+            [advent2017.core :refer [read-puzzle]]))
 
 (def puzzle (read-puzzle "day10.data" (comp first ->lines)))
 

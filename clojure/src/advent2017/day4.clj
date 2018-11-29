@@ -7,7 +7,8 @@
   do is compare letter frequencies.
 
   http://adventofcode.com/2017/day/4"
-  (:require [advent2017.core :refer [read-puzzle ->words ->lines]]))
+  (:require [advent.core :refer [->words ->lines]]
+            [advent2017.core :refer [read-puzzle]]))
 
 (def puzzle (read-puzzle "day4.data" ->lines))
 

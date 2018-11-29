@@ -1,7 +1,8 @@
 (ns advent2017.day18
   ""
   (:require [clojure.core.async :as async]
-            [advent2017.core :refer [read-puzzle ->int ->lines number-string?]]))
+            [advent.core :refer [->int ->lines number-string?]]
+            [advent2017.core :refer [read-puzzle]]))
 
 (def registers (zipmap (map str "abcdefghijklmnopqrstuvwxyz")
                        (repeat 0)))

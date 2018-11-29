@@ -5,7 +5,8 @@
   traversals from every node in the graph."
   (:require [loom.graph :refer [graph]]
             [loom.alg :refer [bf-traverse connected-components]]
-            [advent2017.core :refer [read-puzzle ->lines]]))
+            [advent.core :refer [->lines]]
+            [advent2017.core :refer [read-puzzle]]))
 
 (defn parse-adjacency [s]
   (let [[parent children] (clojure.string/split s #" <-> ")]

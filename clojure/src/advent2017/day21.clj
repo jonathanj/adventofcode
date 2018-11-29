@@ -1,7 +1,8 @@
 (ns advent2017.day21
   ""
   (:require [clojure.string :refer [join split]]
-            [advent2017.core :refer [read-puzzle ->lines]]))
+            [advent.core :refer [->lines]]
+            [advent2017.core :refer [read-puzzle]]))
 
 (defn rotate [x]
   (vec (apply map (comp join vector) (reverse x))))

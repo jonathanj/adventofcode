@@ -1,7 +1,8 @@
 (ns advent2017.day5
   "Mutate the input repeatedly after each jump, with only the mutation differing
   between part 1 and part 2."
-  (:require [advent2017.core :refer [read-puzzle ->lines ->int]]))
+  (:require [advent.core :refer [->lines ->int]]
+            [advent2017.core :refer [read-puzzle]]))
 
 (def puzzle (read-puzzle "day5.data" (comp vec
                                            (partial map ->int)

@@ -2,7 +2,8 @@
   ""
   (:require [loom.graph :refer [graph]]
             [loom.alg :refer [connected-components]]
-            [advent2017.core :refer [read-puzzle num->binary]]
+            [advent.core :refer [num->binary]]
+            [advent2017.core :refer [read-puzzle]]
             [advent2017.day10 :refer [knot-hash]]))
 
 (def sample-puzzle "flqrgnkx")
