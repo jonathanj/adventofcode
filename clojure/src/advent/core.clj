@@ -1,14 +1,13 @@
 (ns advent.core)
 
 (defn read-puzzle [year]
-  (fn
+  (fn read-puzzle'
     ([name]
-     (read-puzzle name identity))
+     (read-puzzle' name identity))
     ([name xform]
-     (fn [year]
-       (-> (clojure.java.io/file (format "../%s/%s" year name))
-           (slurp)
-           xform)))))
+     (-> (clojure.java.io/file (format "../%s/%s" year name))
+         (slurp)
+         xform))))
 
 (defn enumerate [xs]
   (map vector (range) xs))
