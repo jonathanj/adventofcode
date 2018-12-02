@@ -10,11 +10,9 @@
   and 3 occur and multiply them together."
   [input]
   (let [freqs (->> input
-                   (mapcat (comp keys
-                                 ;; Count letter frequency occurrences.
-                                 frequencies vals
-                                 ;; Count letter frequencies.
-                                 frequencies))
+                   (mapcat (comp set            ;; Collapse duplicates.
+                                 vals           ;; Keep only the counts.
+                                 frequencies))  ;; Count letter frequencies.
                    (frequencies))]
     (* (freqs 2) (freqs 3))))
 
