@@ -1,10 +1,10 @@
-Advent of Code: 2016
-====================
+Advent of Code
+==============
 
-My Advent of Code 2016 solutions, mostly in Clojure but some in Python too.
+My Advent of Code solutions.
 
-Lessons Learned
----------------
+Lessons Learned in 2016
+-----------------------
 
 * Spend time reading and understanding the problem, then think about the data
   structure or algorithm that best represents the problem, even if it requires
