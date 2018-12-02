@@ -1,6 +1,7 @@
 (ns advent2018.day1
   "https://adventofcode.com/2018/day/1"
-  (:require [advent.core :refer [->lines ->numbers]]))
+  (:require [advent.core :refer [->lines ->numbers]]
+            [advent2018.core :refer [read-puzzle]]))
 
 (def puzzle (read-puzzle "day1" (comp ->numbers ->lines)))
 
