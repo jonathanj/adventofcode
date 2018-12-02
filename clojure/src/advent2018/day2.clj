@@ -7,12 +7,14 @@
 
 (defn solve-1
   "Count the frequencies of letters, determine how many times frequencies of 2
-  and 3 occur and multiple them together."
+  and 3 occur and multiply them together."
   [input]
   (let [freqs (->> input
-                   (map frequencies)
-                   (map (comp frequencies vals))
-                   (mapcat keys)
+                   (mapcat (comp keys
+                                 ;; Count letter frequency occurrences.
+                                 frequencies vals
+                                 ;; Count letter frequencies.
+                                 frequencies))
                    (frequencies))]
     (* (freqs 2) (freqs 3))))
 
