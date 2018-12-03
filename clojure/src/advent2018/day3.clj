@@ -24,6 +24,8 @@
     (aset fabric idx (inc v))))
 
 (defn solve-1
+  "Mark all rectangles in an array, counting the area with at least one
+  intersection."
   [input]
   (let [fabric (int-array (* 1000 1000) 0)]
     (doseq [c input]
@@ -37,14 +39,14 @@
        (> (:y2 a) (:y1 b))))
 
 (defn solve-2
+  "Remove all intersecting pairs of rectangles from the set of all rectangles."
   [input]
   (let [xs (transient (set (map :id input)))]
     (doseq [a input
             b input
             :when (and (not= a b)
                        (intersects? a b))]
-      (disj! xs (:id a) (:id b))
-      )
+      (disj! xs (:id a) (:id b)))
     (persistent! xs)))
 
 (comment
