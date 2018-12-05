@@ -5,11 +5,6 @@
 
 (def puzzle (read-puzzle "day5" str/trim))
 
-(defn reacting-pair [^Character c]
-  (let [pair (str (Character/toLowerCase c)
-                  (Character/toUpperCase c))]
-    (format "%s|%s" pair (clojure.string/join (reverse pair)))))
-
 (def letters "abcdefghijklmnopqrstuvwxyz")
 
 (defn reacts? [^Character a ^Character b]
