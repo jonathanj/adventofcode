@@ -1,5 +1,7 @@
 (ns advent.core)
 
+(def letters "abcdefghijklmnopqrstuvwxyz")
+
 (defn read-puzzle [year]
   (fn read-puzzle'
     ([name]
