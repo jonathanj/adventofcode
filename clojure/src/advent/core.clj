@@ -20,6 +20,9 @@
 (defn ->words [s]
   (clojure.string/split s #"\s+"))
 
+(defn ->coordinates [s]
+  (map (comp ->int clojure.string/trim) (clojure.string/split s #",")))
+
 (defn ->csv
   ([s] (->csv s true))
   ([s trim?] (map (if trim? clojure.string/trim identity)
