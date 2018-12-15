@@ -1,5 +1,7 @@
 (ns advent2016.day7
-  (:require [clojure.string :as s]))
+  (:require [clojure.string :as s]
+            [advent.core :refer [->lines]]
+            [advent2016.core :refer [read-puzzle]]))
 
 (def example1 ["abba[mnop]qrst"
                "abcd[bddb]xyyx"
@@ -9,7 +11,7 @@
                "xyx[xyx]xyx"
                "aaa[kek]eke"
                "zazbz[bzb]cdb"])
-(def puzzle (vec (line-seq (clojure.java.io/reader "../day7.data"))))
+(def puzzle (read-puzzle "day7" ->lines))
 
 (defn hypernet-seqs [s] (mapcat rest (re-seq #"\[([^]]*?)\]" s)))
 (defn supernet-seqs [s] (s/split (s/replace s #"\[[^]]*?\]" "|") #"\|"))

@@ -1,6 +1,6 @@
 (ns advent.core)
 
-(def letters "abcdefghijklmnopqrstuvwxyz")
+(def ^String letters "abcdefghijklmnopqrstuvwxyz")
 
 (defn read-puzzle [year]
   (fn read-puzzle'
@@ -17,8 +17,17 @@
 (defn ->lines [s]
   (clojure.string/split s #"\n"))
 
+(defn unlines [xs]
+  (clojure.string/join "\n" xs))
+
 (defn ->words [s]
   (clojure.string/split s #"\s+"))
+
+(defn ->int [x]
+  (Integer/parseInt (clojure.string/trim x)))
+
+(defn ->numbers [xs]
+  (map ->int xs))
 
 (defn ->coordinates [s]
   (map (comp ->int clojure.string/trim) (clojure.string/split s #",")))
@@ -27,12 +36,6 @@
   ([s] (->csv s true))
   ([s trim?] (map (if trim? clojure.string/trim identity)
                   (clojure.string/split s #","))))
-
-(defn ->int [x]
-  (Integer/parseInt (clojure.string/trim x)))
-
-(defn ->numbers [xs]
-  (map ->int xs))
 
 (def lines->numbers (comp (partial map (comp ->numbers ->words))
                           ->lines))
@@ -65,3 +68,12 @@
 
 (defn number-string? [s]
   (re-find #"-?\d+" s))
+
+(defn collate
+  ([xs]
+   (collate xs nil))
+  ([xs empty-coll]
+   (let [e (empty empty-coll)]
+     (reduce (fn [m [a b]] (update m a (fnil into e) (conj e b)))
+             {}
+             xs))))
