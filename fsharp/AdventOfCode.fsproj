@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="src/Common/Util.fs" />
+    <Compile Include="src/AOC2020/Day1.fs" />
+    <Compile Include="src/AOC2020/Day2.fs" />
+    <Compile Include="src/AOC2020/Day3.fs" />
+    <Compile Include="src/AOC2020/Day4.fs" />
+    <Compile Include="src/AOC2020/Day5.fs" />
+    <Compile Include="src/AOC2020/Day6.fs" />
+    <Compile Include="src/AOC2020/Day7.fs" />
+    <Compile Include="src/Common/Main.fs" />
+  </ItemGroup>
+</Project>
