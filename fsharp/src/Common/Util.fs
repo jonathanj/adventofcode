@@ -21,11 +21,20 @@ module Util =
       |> (fun s -> s.TrimEnd().Split("\n\n"))
       |> Seq.ofArray
 
-  let readInts (filePath: string) = readLines filePath |> Seq.map System.Int32.Parse
+  let readInts (filePath: string) =
+    readLines filePath |> Seq.map System.Int32.Parse
+
+  let readBigInts (filePath: string) =
+    readLines filePath |> Seq.map System.Numerics.BigInteger.Parse
 
   let (|Integer|_|) (str: string) =
      let mutable intvalue = 0
      if System.Int32.TryParse(str, &intvalue) then Some intvalue
+     else None
+
+  let (|Integer64|_|) (str: string) =
+     let mutable value = 0L
+     if System.Int64.TryParse(str, &value) then Some value
      else None
 
   let (|Character|_|) (str: string) = Seq.tryHead str
@@ -49,6 +58,11 @@ module Util =
       Some (int s)
     with :? System.FormatException -> None
 
+  let tryParseInt64 (s: string) =
+    try
+      Some (System.Int64.Parse s)
+    with :? System.FormatException -> None
+
   let between a b n =
     n >= a && n <= b
 
@@ -60,3 +74,6 @@ module Util =
     System.Convert.ToInt32(s, 2) 
 
   let (|EmptySet|_|) a = if Set.isEmpty a then Some () else None
+
+  let replaceFirst (s: string) (a: string) (b: string) =
+    Regex(a).Replace(s, b, 1)
