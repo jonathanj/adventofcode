@@ -75,5 +75,7 @@ module Util =
 
   let (|EmptySet|_|) a = if Set.isEmpty a then Some () else None
 
+  let (|SingletonSet|_|) a = if (Set.count a) = 1 then Some (Seq.head a) else None
+
   let replaceFirst (s: string) (a: string) (b: string) =
     Regex(a).Replace(s, b, 1)

@@ -20,6 +20,8 @@
     <Compile Include="src/AOC2020/Day12.fs" />
     <Compile Include="src/AOC2020/Day13.fs" />
     <Compile Include="src/AOC2020/Day14.fs" />
+    <Compile Include="src/AOC2020/Day15.fs" />
+    <Compile Include="src/AOC2020/Day16.fs" />
     <Compile Include="src/Common/Main.fs" />
   </ItemGroup>
   <Import Project=".paket\Paket.Restore.targets" />

@@ -1,6 +1,5 @@
 [<EntryPoint>]
 let main argv =
-
   let fn =
     match (Array.map int argv) with
     | [|2020;  1|] -> Some AdventOfCode.Year2020.Day1.main
@@ -17,6 +16,8 @@ let main argv =
     | [|2020; 12|] -> Some AdventOfCode.Year2020.Day12.main
     | [|2020; 13|] -> Some AdventOfCode.Year2020.Day13.main
     | [|2020; 14|] -> Some AdventOfCode.Year2020.Day14.main
+    | [|2020; 15|] -> Some AdventOfCode.Year2020.Day15.main
+    | [|2020; 16|] -> Some AdventOfCode.Year2020.Day16.main
     | _ -> None
 
   match fn with
