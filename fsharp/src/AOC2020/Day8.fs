@@ -5,7 +5,11 @@ module Day8 =
   type Op = string * int
 
   let parse inputs =
-    let parseInst [| op; arg |] = (op, int arg)
+    let parseInst inst =
+      match inst with
+      | [| op; arg |] -> (op, int arg)
+      | _ -> failwith "Invalid instruction"
+
     List.ofSeq <| Seq.mapi
       (fun idx (inst: string) ->
         (idx, (parseInst (inst.Split " ")))) inputs

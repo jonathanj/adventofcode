@@ -22,7 +22,10 @@ module Util =
       |> Seq.ofArray
 
   let readInts (filePath: string) =
-    readLines filePath |> Seq.map System.Int32.Parse
+    readLines filePath |> Seq.map int
+
+  let readInt64s (filePath: string) =
+    readLines filePath |> Seq.map int64
 
   let readBigInts (filePath: string) =
     readLines filePath |> Seq.map System.Numerics.BigInteger.Parse

@@ -8,11 +8,11 @@ module Day9 =
     let isValid buf x =
       List.exists (fun n -> List.contains (x - n) buf) buf
 
-    let rec loop buf (x::xs) = 
-      if isValid buf x then
-        loop ((List.tail buf) @ [x]) xs
-      else
-        x
+    let rec loop buf xs =
+      match xs with
+      | x::xs when isValid buf x -> loop ((List.tail buf) @ [x]) xs
+      | x::_ -> x
+      | _ -> failwith "Nope"
 
     loop (List.take preamble input) (List.skip preamble input)
 
@@ -36,28 +36,28 @@ module Day9 =
     loop inputs
 
   let sample = [
-    bigint 35;
-    bigint 20;
-    bigint 15;
-    bigint 25;
-    bigint 47;
-    bigint 40;
-    bigint 62;
-    bigint 55;
-    bigint 65;
-    bigint 95;
-    bigint 102;
-    bigint 117;
-    bigint 150;
-    bigint 182;
-    bigint 127;
-    bigint 219;
-    bigint 299;
-    bigint 277;
-    bigint 309;
-    bigint 576;
+    35L;
+    20L;
+    15L;
+    25L;
+    47L;
+    40L;
+    62L;
+    55L;
+    65L;
+    95L;
+    102L;
+    117L;
+    150L;
+    182L;
+    127L;
+    219L;
+    299L;
+    277L;
+    309L;
+    576L;
   ]
-  let input = List.ofSeq <| readBigInts (inputData 2020 9)
+  let input = List.ofSeq <| readInt64s (inputData 2020 9)
 
   let main () =
     printfn "%A" (sol1 25 input)
