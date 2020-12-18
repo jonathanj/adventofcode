@@ -18,6 +18,8 @@ let main argv =
     | [|2020; 14|] -> Some AdventOfCode.Year2020.Day14.main
     | [|2020; 15|] -> Some AdventOfCode.Year2020.Day15.main
     | [|2020; 16|] -> Some AdventOfCode.Year2020.Day16.main
+    | [|2020; 17|] -> Some AdventOfCode.Year2020.Day17.main
+    | [|2020; 18|] -> Some AdventOfCode.Year2020.Day18.main
     | _ -> None
 
   match fn with

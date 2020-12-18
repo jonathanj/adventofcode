@@ -52,9 +52,15 @@ module Util =
 
   let keys (map: Map<'k, 'v>) =
     seq {
-        for KeyValue(key,value) in map do
+        for KeyValue(key, _) in map do
             yield key
     } |> Set.ofSeq
+
+  let vals (map: Map<'k, 'v>) =
+    seq {
+        for KeyValue(_, value) in map do
+            yield value
+    }
 
   let tryParseInt (s: string) =
     try

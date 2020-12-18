@@ -28,8 +28,8 @@ module Day15 =
           if isNew then
             0
           else
-          let (a, b) = state.Seen.[last]
-          a - b
+            let (a, b) = state.Seen.[last]
+            a - b
         loop { state with Last = (not <| Map.containsKey spoken state.Seen, spoken); Seen = seen state spoken turn}  (turn + 1)
 
     let state =
@@ -48,5 +48,5 @@ module Day15 =
   let main () =
     printfn "%A" (sol1 input 2020)
     // TODO: I assume the correct way to do this is to implement cycle detection
-    // then figure out when the cycle will repeat for the 3 millionth time.
-    printfn "%A" (sol1 input 30000000)
+    // then figure out when the cycle will repeat for the 30 millionth time.
+    printfn "%A" (sol1 input 30_000_000)
