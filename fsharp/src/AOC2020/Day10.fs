@@ -2,11 +2,6 @@ namespace AdventOfCode.Year2020
 module Day10 =
   open AdventOfCode.Util
 
-  let frequencies xs =
-    List.groupBy id xs
-    |> List.map (fun (k, vs) -> (k, List.length vs))
-    |> Map.ofList
-
   let sol1 input =
     let xs = List.sort input
     let freqs: Map<int, int> =

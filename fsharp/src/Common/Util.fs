@@ -1,10 +1,15 @@
 namespace AdventOfCode
 module Util =
+  open System
+  open System.Globalization
   open System.IO
   open System.Text.RegularExpressions
 
+  let inputPath (year: int) (name: string) =
+    sprintf "../inputs/%d/%s" year name
+
   let inputData (year: int) (day: int) =
-    sprintf "../inputs/%d/day%d" year day
+    inputPath year (sprintf "day%d" day)
 
   let readLines (filePath: string) = seq {
       use sr = new StreamReader (filePath)
@@ -76,6 +81,7 @@ module Util =
     n >= a && n <= b
 
   let lines (s: string) = Seq.ofArray (s.Split("\n"))
+  let linesl = lines >> List.ofSeq
 
   let words = Regex("\s").Split
 
@@ -86,5 +92,28 @@ module Util =
 
   let (|SingletonSet|_|) a = if (Set.count a) = 1 then Some (Seq.head a) else None
 
+  let (|EmptyMap|_|) a = if Map.isEmpty a then Some () else None
+
   let replaceFirst (s: string) (a: string) (b: string) =
     Regex(a).Replace(s, b, 1)
+
+  // https://stackoverflow.com/questions/4556160/is-there-more-simple-or-beautiful-way-to-reverse-a-string
+  let reversedString str =
+    let si = StringInfo(str)
+    let teArr = Array.init si.LengthInTextElements (fun i -> si.SubstringByTextElements(i,1))
+    Array.Reverse(teArr) //in-place reversal better performance than Array.rev
+    String.Join("", teArr)
+
+  let frequencies xs =
+    List.groupBy id xs
+    |> List.map (fun (k, vs) -> (k, List.length vs))
+    |> Map.ofList
+
+  let mergeMap l r =
+    Map.fold (fun s k v -> Map.add k v s) l r
+
+  let minMax xs = (List.min xs), (List.max xs)
+
+  let rec iterate f value = seq { 
+    yield value
+    yield! iterate f (f value) }

@@ -84,10 +84,6 @@ module Day17 =
       Map.add pos newIsActive m
     {state with World = Seq.fold foo state.World (worldCoords state); Gen = state.Gen + 1 }
 
-  let rec iterate f value = seq { 
-    yield value
-    yield! iterate f (f value) }
-
   let sol1 state =
     let final = Seq.take 7 (iterate (generate worldCoords neighbours) state) |> Seq.last
     final.World

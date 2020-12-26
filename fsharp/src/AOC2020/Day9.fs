@@ -2,8 +2,6 @@ namespace AdventOfCode.Year2020
 module Day9 =
   open AdventOfCode.Util
 
-  let minMax xs = (List.min xs), (List.max xs)
-
   let sol1 preamble input =
     let isValid buf x =
       List.exists (fun n -> List.contains (x - n) buf) buf
