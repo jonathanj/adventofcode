@@ -17,9 +17,11 @@ class Day1Test:
       |""".stripMargin
 
   @Test def t1(): Unit =
-    assertEquals(7, Day1.part1(Day1.parse(sample)))
-    assertEquals(1709, Day1.part1(Day1.parse(Source.fromResource("day1").mkString)))
+    val solve = Day1.parse andThen Day1.part1
+    assertEquals(7, solve(sample))
+    assertEquals(1709, solve(Source.fromResource("day1").mkString))
 
   @Test def t2(): Unit =
-    assertEquals(5, Day1.part2(Day1.parse(sample)))
-    assertEquals(1761, Day1.part2(Day1.parse(Source.fromResource("day1").mkString)))
+    val solve = Day1.parse andThen Day1.part2
+    assertEquals(5, solve(sample))
+    assertEquals(1761, solve(Source.fromResource("day1").mkString))
