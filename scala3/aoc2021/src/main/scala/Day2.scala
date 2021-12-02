@@ -1,37 +1,43 @@
 object Day2:
-  type State = (Long, Long, Long)
-  type Instruction = (String, Long)
-  type ExecutorFunction = (State, Instruction) => State
+  enum Direction:
+    case Forward(value: Long)
+    case Up(value: Long)
+    case Down(value: Long)
 
-  def parse(input: String): Seq[Instruction] =
+  type State = (Long, Long, Long)
+  type ExecutorFunction = (State, Direction) => State
+
+  def parse(input: String): Seq[Direction] =
     input.linesIterator.map { line =>
       line.split(' ') match {
-        case Array(dir, cnt) => (dir, cnt.toLong)
+        case Array(dir, cnt) => dir match {
+          case "forward" => Direction.Forward(cnt.toLong)
+          case "up" => Direction.Up(cnt.toLong)
+          case "down" => Direction.Down(cnt.toLong)
+        }
         case _ => throw Error("Malformed input")
       }
     }.toSeq
 
-  def solve(input: Seq[Instruction])(exec: ExecutorFunction) =
+  def solve(input: Seq[Direction])(exec: ExecutorFunction) =
     val initial = (0L, 0L, 0L)
-    val (x, y, _) = input.foldLeft(initial) { case (state, instruction) =>
-      exec(state, instruction)
-    }
+    val (x, y, _) = input.foldLeft(initial)(exec)
     x * y
 
-  def part1(input: Seq[Instruction]) =
-    solve(input) { case ((x, y, _), (dir, cnt)) =>
+  def part1(input: Seq[Direction]) =
+    solve(input) { case ((x, y, _), dir) =>
       dir match {
-        case "forward" => (x + cnt, y, 0)
-        case "up" => (x, y - cnt, 0)
-        case "down" => (x, y + cnt, 0)
+        case Direction.Forward(cnt) => (x + cnt, y, 0)
+        case Direction.Up(cnt) => (x, y - cnt, 0)
+        case Direction.Down(cnt) => (x, y + cnt, 0)
       }
     }
 
-  def part2(input: Seq[Instruction]) =
-    solve(input) { case ((x, y, aim), (dir, cnt)) =>
+  def part2(input: Seq[Direction]) =
+    solve(input) { case ((x, y, aim), dir) =>
       dir match {
-        case "forward" => (x + cnt, y + (aim * cnt), aim)
-        case "up" => (x, y, aim - cnt)
-        case "down" => (x, y, aim + cnt)
+        case Direction.Forward(cnt) => (x + cnt, y + (aim * cnt), aim)
+        case Direction.Up(cnt) => (x, y, aim - cnt)
+        case Direction.Down(cnt) => (x, y, aim + cnt)
       }
     }
