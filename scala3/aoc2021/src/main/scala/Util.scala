@@ -9,3 +9,6 @@ object Util:
 
   def frequencies[T](input: Seq[T]): Map[T, Long] =
     input.groupMapReduce(identity)(_ => 1L)(_ + _)
+
+  def separatedInts(input: String): Seq[Int] =
+    input.trim.split(",").map(_.toInt)
