@@ -1,6 +1,5 @@
 import scala.collection.immutable.Queue
 import aoc2021.Util
-import jdk.nashorn.internal.ir.JoinPredecessor
 
 object Day12:
   type Input = Map[String, Set[String]]
