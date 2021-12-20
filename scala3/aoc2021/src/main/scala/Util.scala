@@ -15,12 +15,25 @@ object Util:
   def separatedInts(input: String): Seq[Int] =
     input.trim.split(",").map(_.toInt)
 
+  type Grid[T] = scala.collection.mutable.HashMap[Point, T]
+
+  def gridFromLines[T](lines: Seq[String])(transform: Char => T): (Grid[T], (Int, Int)) =
+    val grid = scala.collection.mutable.HashMap[Point, T]()
+    for ((line, y) <- lines.zipWithIndex) {
+      for ((ch, x) <- line.zipWithIndex) {
+        grid.put((x, y), transform(ch))
+      }
+    }
+    (grid, (lines.head.length, lines.length))
+
   def drawPoints(pts: Map[Point, Char]): String =
     val sb = new StringBuilder()
-    val width = pts.keys.maxBy(_._1)._1
-    val height = pts.keys.maxBy(_._2)._2
-    for (y <- 0 to height) {
-      for (x <- 0 to width) {
+    val ox = pts.keys.minBy(_._1)._1
+    val oy = pts.keys.minBy(_._2)._2
+    val ow = pts.keys.maxBy(_._1)._1
+    val oh = pts.keys.maxBy(_._2)._2
+    for (y <- oy to oh) {
+      for (x <- ox to ow) {
         sb ++= pts.getOrElse((x, y), '.').toString()
       }
       sb ++= "\n"
@@ -33,3 +46,5 @@ object Util:
     'E' -> "1110", 'F' -> "1111")
 
   def hexToBinary(hex: String): String = hex.trim.map(hexCharToBinary).mkString
+
+  def binaryToInt(bin: String): Int = Integer.parseInt(bin, 2)
