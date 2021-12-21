@@ -1,5 +1,7 @@
 package aoc2021
 
+import scala.annotation.tailrec
+
 object Util:
   type Point = (Int, Int)
 
@@ -48,3 +50,30 @@ object Util:
   def hexToBinary(hex: String): String = hex.trim.map(hexCharToBinary).mkString
 
   def binaryToInt(bin: String): Int = Integer.parseInt(bin, 2)
+
+  def divmod(n: Int, d: Int): (Int, Int) = (n / d, n % d)
+
+  type AdjacentNodes[A] = (node: A) => Seq[(A, Int)]
+  def dijkstra[N](adj: AdjacentNodes[N])(source: N): (Map[N, Int], Map[N, N]) =
+    @tailrec
+    def go(active: Set[N], res: Map[N, Int], pred: Map[N, N]): (Map[N, Int], Map[N, N]) =
+      if (active.isEmpty)
+        (res, pred)
+      else
+        val node = active.minBy(res)
+        val cost = res(node)
+        val neighbours = (for {
+          (n, c) <- adj(node)
+          if cost + c < res.getOrElse(n, Int.MaxValue)
+        } yield n -> (cost + c)).toMap
+        val active1 = active - node ++ neighbours.keys
+        val preds = neighbours.mapValues(_ => node)
+        go(active1, res ++ neighbours, pred ++ preds)
+
+    go(Set(source), Map(source -> 0), Map.empty)
+
+  def tracePath[A](previous: Map[A, A], node: A): List[A] =
+    previous.get(node) match {
+      case None => List()
+      case Some(next) => node :: tracePath(previous, next)
+    }
