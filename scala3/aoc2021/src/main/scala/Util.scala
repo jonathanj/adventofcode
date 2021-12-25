@@ -18,12 +18,14 @@ object Util:
     input.trim.split(",").map(_.toInt)
 
   type Grid[T] = scala.collection.mutable.HashMap[Point, T]
+  type GridWH[T] = (Grid[T], (Int, Int))
 
-  def gridFromLines[T](lines: Seq[String])(transform: Char => T): (Grid[T], (Int, Int)) =
+  def gridFromLines[T](lines: Seq[String])(transform: PartialFunction[Char, T]): GridWH[T] =
     val grid = scala.collection.mutable.HashMap[Point, T]()
     for ((line, y) <- lines.zipWithIndex) {
       for ((ch, x) <- line.zipWithIndex) {
-        grid.put((x, y), transform(ch))
+        if transform.isDefinedAt(ch) then
+          grid.put((x, y), transform(ch))
       }
     }
     (grid, (lines.head.length, lines.length))
