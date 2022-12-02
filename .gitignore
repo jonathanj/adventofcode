@@ -1,0 +1,8 @@
+.clj-kondo
+.DS_Store
+.lsp
+.bsp
+.vscode
+.idea
+.config
+target
