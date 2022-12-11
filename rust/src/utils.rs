@@ -1,6 +1,7 @@
 use regex::Regex;
 use std::fs::{self, File};
 use std::io::{self, BufRead};
+use std::str::FromStr;
 
 #[allow(dead_code)]
 pub fn read_lines(filename: &str) -> io::Result<io::Lines<io::BufReader<File>>> {
@@ -25,4 +26,15 @@ pub fn regex_captures(expr: &Regex, input: &str) -> Vec<Vec<String>> {
                 .collect::<Vec<_>>()
         })
         .collect()
+}
+
+pub fn regex_capture<F: FromStr>(expr: &Regex, input: &str) -> Result<F, F::Err> {
+    match expr
+        .captures_iter(input)
+        .flat_map(|c| c.get(1).map(|m| m.as_str().parse()))
+        .next()
+    {
+        Some(res) => res,
+        _ => panic!("No regex captures"),
+    }
 }
