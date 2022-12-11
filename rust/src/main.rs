@@ -1,5 +1,13 @@
+extern crate core;
 #[macro_use]
 extern crate scan_fmt;
+
+use std::env;
+use std::fs;
+use std::io;
+use std::io::Read;
+use std::num::ParseIntError;
+
 mod day1;
 mod day10;
 mod day11;
@@ -14,5 +22,51 @@ mod day9;
 mod utils;
 
 fn main() {
-    println!("Hello, world!");
+    match parse_args() {
+        Ok((1, 1)) => println!("{:?}", day1::part1(read_stdin().as_str())),
+        Ok((1, 2)) => println!("{:?}", day1::part2(read_stdin().as_str())),
+        Ok((2, 1)) => println!("{:?}", day2::part1(read_stdin().as_str())),
+        Ok((2, 2)) => println!("{:?}", day2::part2(read_stdin().as_str())),
+        Ok((3, 1)) => println!("{:?}", day3::part1(read_stdin().as_str())),
+        Ok((3, 2)) => println!("{:?}", day3::part2(read_stdin().as_str())),
+        Ok((4, 1)) => println!("{:?}", day4::part1(read_stdin().as_str())),
+        Ok((4, 2)) => println!("{:?}", day4::part2(read_stdin().as_str())),
+        Ok((5, 1)) => println!("{:?}", day5::part1(read_stdin().as_str())),
+        Ok((5, 2)) => println!("{:?}", day5::part2(read_stdin().as_str())),
+        Ok((6, 1)) => println!("{:?}", day6::part1(read_stdin().as_str())),
+        Ok((6, 2)) => println!("{:?}", day6::part2(read_stdin().as_str())),
+        Ok((7, 1)) => println!("{:?}", day7::part1(read_stdin().as_str())),
+        Ok((7, 2)) => println!("{:?}", day7::part2(read_stdin().as_str())),
+        Ok((8, 1)) => println!("{:?}", day8::part1(read_stdin().as_str())),
+        Ok((8, 2)) => println!("{:?}", day8::part2(read_stdin().as_str())),
+        Ok((9, 1)) => println!("{:?}", day9::part1(read_stdin().as_str())),
+        Ok((9, 2)) => println!("{:?}", day9::part2(read_stdin().as_str())),
+        Ok((10, 1)) => println!("{:?}", day10::part1(read_stdin().as_str())),
+        Ok((10, 2)) => println!("{:?}", day10::part2(read_stdin().as_str())),
+        Ok((11, 1)) => println!("{:?}", day11::part1(read_stdin().as_str())),
+        Ok((11, 2)) => println!("{:?}", day11::part2(read_stdin().as_str())),
+        Ok((day, part)) => panic!("Unknown day {:?} and part {:?}", day, part),
+        err => panic!("Other error {:?}", err),
+    }
+}
+
+fn read_stdin() -> String {
+    let mut stdin = io::stdin();
+    let mut buf = String::new();
+    match stdin.read_to_string(&mut buf) {
+        Ok(n) if n > 0 => buf,
+        _ => panic!("stdin is empty, pipe a puzzle input to it"),
+    }
+}
+
+fn parse_args() -> Result<(i32, i32), ParseIntError> {
+    let argv: Vec<String> = env::args().collect();
+    match &argv[..] {
+        [_, day_n_string, part_n_string] => {
+            Ok((day_n_string.parse::<i32>()?, part_n_string.parse::<i32>()?))
+        }
+        _ => {
+            panic!("usage: $0 [DAY]");
+        }
+    }
 }

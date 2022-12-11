@@ -6,11 +6,11 @@ fn calorie_totals(input: &str) -> Vec<i32> {
         .collect()
 }
 
-fn part1(input: &str) -> i32 {
+pub fn part1(input: &str) -> i32 {
     *calorie_totals(input).iter().max().unwrap()
 }
 
-fn part2(input: &str) -> i32 {
+pub fn part2(input: &str) -> i32 {
     let mut xs: Vec<i32> = calorie_totals(input);
     xs.sort();
     return xs.iter().rev().take(3).fold(0, |a, b| a + b);
@@ -44,6 +44,9 @@ mod tests {
     #[test]
     fn part2() {
         assert_eq!(45000, super::part2(SAMPLE));
-        assert_eq!(207576, super::part2(utils::read_input("2022/day1").as_str()));
+        assert_eq!(
+            207576,
+            super::part2(utils::read_input("2022/day1").as_str())
+        );
     }
 }

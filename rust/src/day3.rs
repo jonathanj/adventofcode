@@ -1,32 +1,41 @@
 use std::collections::HashSet;
 
 fn priorities(s: &str) -> HashSet<i32> {
-    s.chars().map(|c| {
-        match c {
+    s.chars()
+        .map(|c| match c {
             c if c.is_ascii_lowercase() => (c as i32) - ('a' as i32) + 1,
-            c => (c as i32) - ('A' as i32) + 27
-        }
-    }).collect()
+            c => (c as i32) - ('A' as i32) + 27,
+        })
+        .collect()
 }
 
-fn part1(input: &str) -> i32 {
-    input.lines().flat_map(|line| {
-        let (a, b) = line.split_at(line.len() / 2);
-        let sa = priorities(a);
-        let sb: HashSet<i32> = priorities(b);
-        sa.intersection(&sb).cloned().collect::<HashSet<_>>()
-    }).sum()
+pub fn part1(input: &str) -> i32 {
+    input
+        .lines()
+        .flat_map(|line| {
+            let (a, b) = line.split_at(line.len() / 2);
+            let sa = priorities(a);
+            let sb: HashSet<i32> = priorities(b);
+            sa.intersection(&sb).cloned().collect::<HashSet<_>>()
+        })
+        .sum()
 }
 
-fn part2(input: &str) -> i32 {
-    input.lines().collect::<Vec<_>>().chunks(3).map(|lines| {
-        let z = lines.iter()
-            .map(|line| priorities(line))
-            .reduce(|a, b| a.intersection(&b).cloned().collect())
-            .and_then(|set| set.into_iter().next())
-            .unwrap();
-        z
-    }).sum()
+pub fn part2(input: &str) -> i32 {
+    input
+        .lines()
+        .collect::<Vec<_>>()
+        .chunks(3)
+        .map(|lines| {
+            let z = lines
+                .iter()
+                .map(|line| priorities(line))
+                .reduce(|a, b| a.intersection(&b).cloned().collect())
+                .and_then(|set| set.into_iter().next())
+                .unwrap();
+            z
+        })
+        .sum()
 }
 
 mod tests {

@@ -19,7 +19,7 @@ fn range_contains<T: std::cmp::PartialOrd>(a: &Range<T>, b: &Range<T>) -> bool {
     a.start <= b.start && a.end >= b.end
 }
 
-fn part1(input: &str) -> i32 {
+pub fn part1(input: &str) -> i32 {
     parse(input)
         .filter(|(a, b)| range_contains(a, b) || range_contains(b, a))
         .count() as i32
@@ -29,7 +29,7 @@ fn range_overlaps<T: std::cmp::PartialOrd>(a: &Range<T>, b: &Range<T>) -> bool {
     (a.end >= b.start && a.end <= b.end) || (a.start >= b.start && a.end <= b.end)
 }
 
-fn part2(input: &str) -> i32 {
+pub fn part2(input: &str) -> i32 {
     parse(input)
         .filter(|(a, b)| range_overlaps(a, b) || range_overlaps(b, a))
         .count() as i32

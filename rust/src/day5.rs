@@ -39,11 +39,11 @@ fn process(input: &str, move_idx: fn(usize) -> usize) -> String {
         .collect::<String>()
 }
 
-fn part1(input: &str) -> String {
+pub fn part1(input: &str) -> String {
     process(input, |_| 0)
 }
 
-fn part2(input: &str) -> String {
+pub fn part2(input: &str) -> String {
     process(input, |idx| idx)
 }
 
