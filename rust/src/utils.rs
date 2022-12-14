@@ -1,3 +1,5 @@
+use image::codecs::gif::GifEncoder;
+use image::{Delay, Frame, Rgba, RgbaImage};
 use regex::Regex;
 use std::fs::{self, File};
 use std::io::{self, BufRead};
@@ -36,5 +38,31 @@ pub fn regex_capture<F: FromStr>(expr: &Regex, input: &str) -> Result<F, F::Err>
     {
         Some(res) => res,
         _ => panic!("No regex captures"),
+    }
+}
+
+pub struct Animation {
+    path: String,
+    encoder: GifEncoder<File>,
+}
+
+impl Animation {
+    pub fn new(path: &str) -> Animation {
+        let file_out = File::create(path).unwrap();
+        Animation {
+            path: path.to_string(),
+            encoder: GifEncoder::new(file_out),
+        }
+    }
+
+    pub fn add_frame(&mut self, img: RgbaImage) {
+        self.encoder
+            .encode_frame(Frame::from_parts(
+                img,
+                0,
+                0,
+                Delay::from_numer_denom_ms(100, 1),
+            ))
+            .unwrap();
     }
 }

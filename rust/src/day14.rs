@@ -1,3 +1,5 @@
+use crate::utils::Animation;
+use image::{Rgba, RgbaImage};
 use std::collections::HashMap;
 
 type Coord = (i32, i32);
@@ -37,20 +39,23 @@ where
     None
 }
 
-fn simulate_sand<F>(grid: &mut GridMap, hit_test: F) -> i32
+fn simulate_sand<F, C>(grid: &mut GridMap, hit_test: F, mut iteration_callback: C) -> i32
 where
     F: Fn(&GridMap, Coord) -> HitResult,
+    C: FnMut(&GridMap, i32) -> (),
 {
     let mut count = 0;
     loop {
         match next_sand_pt(grid, &SAND_ORIGIN, &hit_test) {
             Some((x, y)) => {
                 grid.insert((x, y), 'o');
+                iteration_callback(&grid, count);
                 count += 1
             }
             None => break,
         }
     }
+    iteration_callback(&grid, count);
     count
 }
 
@@ -62,7 +67,12 @@ pub fn part1(input: &str) -> i32 {
         pt if grid.contains_key(&pt) => HitResult::Hit,
         _ => HitResult::NoHit,
     };
-    simulate_sand(&mut grid, &hit_test)
+    let mut anim = Animation::new("day14-1.gif");
+    simulate_sand(&mut grid, &hit_test, |grid, count| {
+        if count % 100 == 0 {
+            anim.add_frame(grid_map_to_image(grid));
+        }
+    })
 }
 
 pub fn part2(input: &str) -> i32 {
@@ -73,7 +83,12 @@ pub fn part2(input: &str) -> i32 {
         pt if grid.contains_key(&pt) => HitResult::Hit,
         _ => HitResult::NoHit,
     };
-    simulate_sand(&mut grid, &hit_test)
+    let mut anim = Animation::new("day14-2.gif");
+    simulate_sand(&mut grid, &hit_test, |grid, count| {
+        if count % 100 == 0 {
+            anim.add_frame(grid_map_to_image(grid));
+        }
+    })
 }
 
 fn grid_bounds(grid: &GridMap) -> (Coord, Coord) {
@@ -127,6 +142,29 @@ fn parse(input: &str) -> GridMap {
         }
     }
     grid
+}
+
+fn grid_map_to_image(grid: &GridMap) -> RgbaImage {
+    let ((nx, ny), (mx, my)) = grid_bounds(grid);
+    let padding = 0;
+    let exact_width = padding * 2 + (mx - nx + 1) as u32;
+    let exact_height = padding * 2 + (my - ny + 1) as u32;
+    let width = 400;
+    let height = 300;
+    let width_offset = (width - exact_width).max(0);
+    let height_offset = (height - exact_height).max(0);
+
+    RgbaImage::from_fn(width, height, |x, y| {
+        let (gx, gy) = (
+            (nx + (x as i32) - (padding + width_offset / 2) as i32),
+            (ny + (y as i32) - (padding + height_offset / 2) as i32),
+        );
+        match grid.get(&(gx, gy)) {
+            Some('o') => Rgba([255u8, 0u8, 255u8, 255u8]),
+            Some(_) => Rgba([0u8, 0u8, 0u8, 255u8]),
+            None => Rgba([255u8, 255u8, 255u8, 255u8]),
+        }
+    })
 }
 
 mod tests {
