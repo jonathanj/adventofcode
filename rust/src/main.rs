@@ -15,6 +15,7 @@ mod day12;
 mod day13;
 mod day14;
 mod day15;
+mod day17;
 mod day2;
 mod day20;
 mod day23;
@@ -59,6 +60,8 @@ fn main() {
         Ok((14, 2)) => println!("{:?}", day14::part2(read_stdin().as_str())),
         Ok((15, 1)) => println!("{:?}", day15::part1(read_stdin().as_str(), 2000000)),
         Ok((15, 2)) => println!("{:?}", day15::part2(read_stdin().as_str(), 4000000)),
+        Ok((17, 1)) => println!("{:?}", day17::part1(read_stdin().as_str())),
+        Ok((17, 2)) => println!("{:?}", day17::part2(read_stdin().as_str())),
         Ok((20, 1)) => println!("{:?}", day20::part1(read_stdin().as_str())),
         Ok((20, 2)) => println!("{:?}", day20::part2(read_stdin().as_str())),
         Ok((23, 1)) => println!("{:?}", day23::part1(read_stdin().as_str())),
