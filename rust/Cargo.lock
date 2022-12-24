@@ -526,6 +526,7 @@ dependencies = [
  "itertools",
  "lazy_static",
  "memmap2",
+ "num-integer",
  "petgraph",
  "regex",
  "scan_fmt",
