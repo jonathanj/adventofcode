@@ -21,6 +21,7 @@ mod day20;
 mod day21;
 mod day23;
 mod day24;
+mod day25;
 mod day3;
 mod day4;
 mod day5;
@@ -72,6 +73,7 @@ fn main() {
         Ok((23, 2)) => println!("{:?}", day23::part2(read_stdin().as_str())),
         Ok((24, 1)) => println!("{:?}", day24::part1(read_stdin().as_str())),
         Ok((24, 2)) => println!("{:?}", day24::part2(read_stdin().as_str())),
+        Ok((25, 1)) => println!("{:?}", day25::part1(read_stdin().as_str())),
         Ok((day, part)) => panic!("Unknown day {:?} and part {:?}", day, part),
         err => panic!("Other error {:?}", err),
     }
